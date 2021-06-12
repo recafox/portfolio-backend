@@ -1,0 +1,19 @@
+{
+  "nickname": "Rita",
+  "description": "A simple lama",
+  "socialLinks": [
+    {
+      "name": "facebook",
+      "description": "my facebook page",
+      "imgPath": "sfsdfsdfsdf.svg",
+      "link": "https://sfsfsfds.com"
+    }
+  ],
+  "skills": [
+    {
+      "name": "React",
+      "description": "Intermediate",
+      "imgPath": "sfsdfsdfsdf.svg"
+    }
+  ]
+}
