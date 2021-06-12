@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
-const ProfileSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+const SocialLinkSchema = require("./socialLink.model");
+
+const ProfileSchema = new Schema({
   nickname: {
     type: String,
     required: true,
@@ -8,4 +11,8 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  socialLinks: [SocialLinkSchema],
 });
+
+const ProfileModel = mongoose.model("Profile", ProfileSchema);
+module.exports = ProfileModel;
