@@ -25,7 +25,7 @@ const ProfileSchema = new Schema(
   },
   {
     capped: true,
-    size: 999999,
+    size: 10240,
     max: 1,
   }
 );

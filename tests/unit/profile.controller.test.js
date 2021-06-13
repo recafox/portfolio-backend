@@ -14,30 +14,46 @@ beforeEach(() => {
   next = jest.fn();
 });
 
-describe("ProfileController.createProfile", () => {
-  it("should have an createProfile function", () => {
-    expect(typeof ProfileController.createProfile).toBe("function");
+describe("ProfileController.getProfile", () => {
+  it("should have a getProfile function", () => {
+    expect(typeof ProfileController.getProfile).toBe("function");
   });
 
-  it("should call ProfileModel.create", () => {
-    let profile = {
-      nickname: "Rita",
-      description: "a simple lama",
-    };
-    req.body = profile;
-    ProfileController.createProfile(req, res, next);
-    expect(ProfileModel.create).toBeCalledWith(profile);
+  it("should call ProfileModel.find with empty object", async () => {
+    let obj = {};
+    await ProfileController.getProfile(req, res, next);
+    expect(ProfileModel.find).toBeCalledWith(obj);
   });
 
-  it("should return http code 201", async () => {
-    await ProfileController.createProfile(req, res, next);
-    expect(res.statusCode).toBe(201);
+  it("should return status code 204 if no existing profile is found", async () => {
+    // if nothing found in mongo, exec returns empty array
+    // mongoose query chaining: find({}).exec() --> return empty array
+    ProfileModel.find = jest.fn().mockImplementationOnce(() => ({
+      exec: jest.fn().mockResolvedValueOnce([]),
+    }));
+    await ProfileController.getProfile(req, res, next);
+    expect(res.statusCode).toBe(204);
     expect(res._isEndCalled()).toBeTruthy();
   });
 
-  it("should return json body in response", async () => {
-    ProfileModel.create.mockReturnValue(profile);
-    await ProfileController.createProfile(req, res, next);
+  it("should return profile json and code 200 if existing profile is found", async () => {
+    ProfileModel.find = jest.fn().mockImplementationOnce(() => ({
+      exec: jest.fn().mockResolvedValueOnce(profile),
+    }));
+    await ProfileController.getProfile(req, res, next);
+    expect(res.statusCode).toBe(200);
     expect(res._getJSONData()).toStrictEqual(profile);
   });
+
+  it("should handle error", async () => {
+    const errorMessage = { message: "Error getting profile" };
+    const rejectedPromise = Promise.reject(errorMessage);
+    ProfileModel.find = jest.fn().mockImplementationOnce(() => ({
+      exec: jest.fn().mockResolvedValueOnce(rejectedPromise),
+    }));
+    await ProfileController.getProfile(req, res, next);
+    expect(next).toBeCalledWith(errorMessage);
+  });
 });
+
+describe.skip("ProfileController.createProfile", () => {});
