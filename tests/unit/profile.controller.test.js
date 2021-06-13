@@ -56,4 +56,26 @@ describe("ProfileController.getProfile", () => {
   });
 });
 
-describe.skip("ProfileController.createProfile", () => {});
+describe("ProfileController.createProfile", () => {
+  it("should have a createProfile function", () => {
+    expect(typeof ProfileController.createProfile).toBe("function");
+  });
+  it("should call ProfileModel.findOneAndUpdate", async () => {
+    req.body = profile;
+    await ProfileController.createProfile(req, res, next);
+    expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledWith({}, profile, {
+      new: true,
+      upsert: true,
+      useFindAndModify: false,
+    });
+  });
+
+  it("should return code 201", async () => {
+    req.body = profile;
+    ProfileModel.findOneAndUpdate.mockReturnValue(profile);
+    await ProfileController.createProfile(req, res, next);
+    expect(res._isEndCalled()).toBeTruthy();
+    expect(res.statusCode).toBe(201);
+    expect(res._getJSONData()).toStrictEqual(profile);
+  });
+});
