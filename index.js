@@ -6,6 +6,7 @@ const app = express();
 const profileRoutes = require("./routes/profile.routes");
 const imageRoutes = require("./routes/image.routes");
 const authRouters = require("./routes/auth.routes");
+const expRoutes = require("./routes/exp.routes");
 const mongodb = require("./mongoodb/mongodb.connect");
 mongodb.connect();
 
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use("/profile", profileRoutes);
 app.use("/image", imageRoutes);
 app.use("/auth", authRouters);
+app.use("/exp", expRoutes);
 
 app.use((error, req, res, next) => {
   res.status(500).json({ message: error.message });
