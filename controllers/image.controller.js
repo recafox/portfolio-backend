@@ -20,3 +20,18 @@ exports.getImage = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteImage = async (req, res, next) => {
+  try {
+    const deletedImage = await ImageModel.findByIdAndDelete(req.params.id);
+    if (deletedImage) {
+      res.status(200).send({
+        message: "deleted",
+      });
+    } else {
+      res.status(404).send();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
