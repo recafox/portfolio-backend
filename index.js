@@ -29,23 +29,7 @@ app.use(express.json());
 
 app.use("/profile", profileRoutes);
 app.use("/image", imageRoutes);
-
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    failureFlash: true,
-  }),
-  function (req, res) {
-    res.send("login!!!");
-    // res.redirect("/");
-  }
-);
-
-app.get("/logout", function (req, res) {
-  req.logout();
-  res.send("logout!!");
-  // res.redirect("/");
-});
+app.use("/auth", authRouters);
 
 app.use((error, req, res, next) => {
   res.status(500).json({ message: error.message });
