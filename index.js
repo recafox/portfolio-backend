@@ -3,12 +3,12 @@ const cookieSession = require("cookie-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const app = express();
+const mongodb = require("./mongoodb/mongodb.connect");
+mongodb.connect();
 const profileRoutes = require("./routes/profile.routes");
 const imageRoutes = require("./routes/image.routes");
 const authRouters = require("./routes/auth.routes");
 const expRoutes = require("./routes/exp.routes");
-const mongodb = require("./mongoodb/mongodb.connect");
-mongodb.connect();
 
 require("./service/passport");
 
