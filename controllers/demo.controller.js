@@ -37,3 +37,16 @@ exports.getDemo = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteDemo = async (req, res, next) => {
+  try {
+    const deletedDemo = await DemoModel.findByIdAndDelete(req.params.id);
+    if (deletedDemo) {
+      res.status(200).json(deletedDemo);
+    } else {
+      res.status(404).send();
+    }
+  } catch (error) {
+    next(error);
+  }
+};

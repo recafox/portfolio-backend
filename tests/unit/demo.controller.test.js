@@ -106,3 +106,39 @@ describe("DemoController.getDemo", () => {
     expect(next).toBeCalledWith(errorMessage);
   });
 });
+
+describe("DemoController.deleteDemo", () => {
+  it("should have a deeteDemo function", () => {
+    expect(typeof DemoController.deleteDemo).toBe("function");
+  });
+
+  it("should call DemoModel.findByIdAndDelete", async () => {
+    req.params.id = demoId;
+    await DemoController.deleteDemo(req, res, next);
+    expect(DemoModel.findByIdAndDelete).toHaveBeenCalledWith(demoId);
+  });
+
+  it("should return http code 200 and json body", async () => {
+    req.params.id = demoId;
+    DemoModel.findByIdAndDelete.mockReturnValue(demo);
+    await DemoController.deleteDemo(req, res, next);
+    expect(res._isEndCalled()).toBeTruthy();
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual(demo);
+  });
+
+  it("should return http code 404 if nothing found", async () => {
+    DemoModel.findByIdAndDelete.mockReturnValue(null);
+    await DemoController.deleteDemo(req, res, next);
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it("should handle error", async () => {
+    const errorMessage = { message: "Error deleting!" };
+    const rejectedPromise = Promise.reject(errorMessage);
+    DemoModel.findByIdAndDelete.mockReturnValue(rejectedPromise);
+    await DemoController.deleteDemo(req, res, next);
+    expect(next).toBeCalledWith(errorMessage);
+  });
+});
