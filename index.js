@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieSession = require("cookie-session");
 const flash = require("connect-flash");
+const keys = require("./keys");
 const passport = require("passport");
 const app = express();
 const mongodb = require("./mongoodb/mongodb.connect");
@@ -19,7 +20,7 @@ app.use(
     // milliseconds
     maxAge: 30 * 24 * 60 * 60 * 1000,
     // encript cookie name by using this key
-    keys: ["odksuwkfmavkisj"],
+    keys: [keys.cookieKey],
   })
 );
 
