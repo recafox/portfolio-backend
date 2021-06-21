@@ -44,6 +44,21 @@ app.get("/", (req, res) => {
   res.send("hello!!");
 });
 
+if (process.env.NODE_ENV === "production") {
+  // IF: No designated route handler for the request, request goes here
+  // Express serve up production assets, like main.js or main.css
+  // if any "GET" request comes in for any route, file, which we do not set route for, look into this directory, if anything inside matches, send it back
+  app.use(express.static("client/build"));
+  // express find anything inside client/build satisfying the request, the flow stops here.
+
+  // IF: nothing matches, the following code will catch the request
+  // Express will serve up index.html if it does not recognize the route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`app is running on port ${PORT}`));
 // module.exports = app;
