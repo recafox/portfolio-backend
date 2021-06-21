@@ -41,6 +41,9 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^2.0.0"
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.2",
+    "enzyme": "^3.11.0",
+    "http-proxy-middleware": "^2.0.0",
+    "moxios": "^0.4.0"
   }
 }
