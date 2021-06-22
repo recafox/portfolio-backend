@@ -1,6 +1,7 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { mount } from "enzyme";
-import { findByTestAttr } from "../../../test/testUtils";
+import { findByTestAttr, storeFactory } from "../../../test/testUtils";
 import LoginForm from "./LoginForm";
 
 /**
@@ -8,11 +9,15 @@ import LoginForm from "./LoginForm";
  * What to test?
  * 1. should have two inputs: username, password
  * 2. state updates with value of input box upon change
- * 3. press submit button should post to server
  */
 
 const setup = (initial) => {
-  return mount(<LoginForm></LoginForm>);
+  const store = storeFactory();
+  return mount(
+    <Provider store={store}>
+      <LoginForm></LoginForm>
+    </Provider>
+  );
 };
 
 test("render withour error", () => {

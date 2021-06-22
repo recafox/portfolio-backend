@@ -11,6 +11,14 @@ const LoginForm = (props) => {
     props.signIn(username, password);
   };
 
+  const showErrorMessage = () => {
+    if (props.auth.loginError) {
+      return <span>Error!</span>;
+    } else {
+      return "";
+    }
+  };
+
   return (
     <form data-test="component-login-form" onSubmit={(e) => onSubmit(e)}>
       <label>
@@ -29,9 +37,15 @@ const LoginForm = (props) => {
           onChange={(e) => setPassword(e.target.value)}
         ></input>
       </label>
+      {showErrorMessage()}
       <button type="submit">Login</button>
     </form>
   );
 };
 
-export default connect(null, { signIn })(LoginForm);
+function mapStateToProps({ auth }) {
+  return {
+    auth,
+  };
+}
+export default connect(mapStateToProps, { signIn })(LoginForm);

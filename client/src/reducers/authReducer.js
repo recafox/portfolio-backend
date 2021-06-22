@@ -7,7 +7,9 @@ const INITIAL_STATE = {
 const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case actionTypes.SIGN_IN:
-      return { ...state, isLogin: true };
+      return { ...state, ...action.payload };
+    case actionTypes.SIGN_WITH_ERROR:
+      return { ...state, ...action.payload };
     default:
       return state;
   }
