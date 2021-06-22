@@ -85,13 +85,4 @@ describe("state controlled input field", () => {
       expect(mockSetPassword).toHaveBeenCalledWith("hello");
     });
   });
-
-  // test("state `password` updates with value of password input upon change", () => {
-  //   React.useState = jest.fn(() => ["", mockSetPassword]);
-  //   const inputBox = findByTestAttr(wrapper, "password-input");
-  //   const mockEvent = { target: { value: "hello" } };
-  //   inputBox.simulate("change", mockEvent);
-
-  //   expect(mockSetUsername).toHaveBeenCalledWith("hello");
-  // });
 });

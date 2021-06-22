@@ -1,10 +1,18 @@
 import React from "react";
+import { connect } from "react-redux";
+import { signIn } from "../../actions";
 
 const LoginForm = (props) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    props.signIn(username, password);
+  };
+
   return (
-    <form data-test="component-login-form">
+    <form data-test="component-login-form" onSubmit={(e) => onSubmit(e)}>
       <label>
         username
         <input
@@ -21,8 +29,9 @@ const LoginForm = (props) => {
           onChange={(e) => setPassword(e.target.value)}
         ></input>
       </label>
+      <button type="submit">Login</button>
     </form>
   );
 };
 
-export default LoginForm;
+export default connect(null, { signIn })(LoginForm);

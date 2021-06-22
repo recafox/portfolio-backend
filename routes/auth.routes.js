@@ -8,13 +8,15 @@ router.post(
     failureFlash: true,
   }),
   function (req, res) {
-    res.send("login!!!");
-    // res.redirect("/");
+    res.json({
+      isLogin: true,
+    });
   }
 );
 router.get("/logout", function (req, res) {
   req.logout();
-  res.send("logout!!");
-  // res.redirect("/");
+  res.json({
+    isLogin: false,
+  });
 });
 module.exports = router;
