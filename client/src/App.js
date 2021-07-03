@@ -1,7 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import axios from "axios";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    axios.get("/profile").then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
