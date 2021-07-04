@@ -1,31 +1,42 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import GuardedRoute from "./pages/utils/GuardedRoute";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { useEffect } from "react";
+import { LOGOUT } from "./actions/types";
+
+import LoginForm from "../src/pages/login/LoginForm";
+
+const BackendPage = (props) => {
+  const dispatch = useDispatch();
+  const logout = async (e) => {
+    const response = await axios.get("/auth/logout");
+    if (response.data.succeed) {
+      dispatch({ type: LOGOUT });
+    }
+  };
+  return (
+    <div>
+      <button onClick={(e) => logout(e)}>logout</button>
+      <h1>Backend</h1>
+    </div>
+  );
+};
 
 function App() {
-  useEffect(() => {
-    axios.get("/profile").then((res) => {
-      console.log(res);
-    });
-  }, []);
+  const auth = useSelector((state) => state.auth);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={LoginForm}></Route>
+        <GuardedRoute
+          path="/backend"
+          component={BackendPage}
+          auth={auth}
+        ></GuardedRoute>
+      </Switch>
+    </Router>
   );
 }
 
