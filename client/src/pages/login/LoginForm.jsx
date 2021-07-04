@@ -3,6 +3,36 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { LOGIN_SUCCEED, LOGIN_FAILED } from "../../actions/types";
+import styled from "styled-components";
+
+// styled components
+import Input from "../components/Input";
+import Button from "../components/Button";
+
+const Form = styled.form`
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  input {
+    letter-spacing: 0.6rem;
+    text-align: center;
+  }
+
+  button {
+    letter-spacing: 0.3rem;
+    margin-top: 20px;
+  }
+`;
 
 const LoginForm = (props) => {
   const [username, setUsername] = useState("");
@@ -37,24 +67,25 @@ const LoginForm = (props) => {
     }
   };
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <Form onSubmit={(e) => handleSubmit(e)}>
       <label>
-        username
-        <input
+        <Input
+          placeholder="username"
           onChange={(e) => setUsername(e.target.value)}
           onClick={(e) => handleInputOnClick(e)}
-        ></input>
+        ></Input>
       </label>
       <label>
-        password
-        <input
+        <Input
+          placeholder="password"
+          type="password"
           onChange={(e) => setPassword(e.target.value)}
           onClick={(e) => handleInputOnClick(e)}
-        ></input>
+        ></Input>
       </label>
       {renderErrorText()}
-      <button type="submit">Login</button>
-    </form>
+      <Button type="submit">Login</Button>
+    </Form>
   );
 };
 

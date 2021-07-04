@@ -20,7 +20,7 @@ passport.use(
       return cb(null, false, { message: "no user found" });
     }
     if (user.password !== password) {
-      return cb(null, false);
+      return cb(null, false, { message: "password is incorrect" });
     }
     return cb(null, user);
   })

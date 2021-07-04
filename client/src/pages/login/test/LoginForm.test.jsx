@@ -15,8 +15,8 @@ test("Login succeeds", async () => {
   render(<App></App>);
 
   // type in username and password
-  const usernameInput = screen.getByRole("textbox", { name: /username/i });
-  const passwordInput = screen.getByRole("textbox", { name: /password/i });
+  const usernameInput = screen.getByPlaceholderText(/username/i);
+  const passwordInput = screen.getByPlaceholderText(/password/i);
   const submitButton = screen.getByRole("button", { name: /login/i });
 
   expect(usernameInput).toBeInTheDocument();
@@ -49,8 +49,8 @@ test("Login fails", async () => {
   );
 
   render(<App></App>);
-  const usernameInput = screen.getByRole("textbox", { name: /username/i });
-  const passwordInput = screen.getByRole("textbox", { name: /password/i });
+  const usernameInput = screen.getByPlaceholderText(/username/i);
+  const passwordInput = screen.getByPlaceholderText(/password/i);
   const submitButton = screen.getByRole("button", { name: /login/i });
   userEvent.clear(usernameInput);
   userEvent.clear(passwordInput);
