@@ -48,7 +48,7 @@ function App() {
             <GuardedRoute
               path="/backend"
               component={BackendEntry}
-              auth={true}
+              auth={auth}
             ></GuardedRoute>
           </Switch>
         </ThemeProvider>

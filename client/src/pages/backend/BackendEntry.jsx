@@ -26,11 +26,7 @@ const BackendEntry = (props) => {
     <div>
       <button onClick={(e) => logout(e)}>logout</button>
       <h1>Backend</h1>
-      <ImageUploader
-        onSuccessCallback={onImgSuccessCallback}
-        onDeletedCallback={onDeletedCallback}
-        imageSrc={imageSrc}
-      ></ImageUploader>
+      <ImageUploader></ImageUploader>
     </div>
   );
 };
