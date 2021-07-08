@@ -27,4 +27,30 @@ export const handlers = [
       })
     );
   }),
+
+  rest.get(`${baseUrl}/profile`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        description: "rita is here!",
+        nickname: "RITA",
+        skills: [
+          {
+            _id: "60c6190b2213a24e78b02141",
+            name: "React",
+            description: "Intermediate",
+            imgPath: "60c6190b2213a24e78b02141",
+          },
+        ],
+        socialLinks: [
+          {
+            _id: "60c6190b2213a24e78b02140",
+            name: "facebook",
+            description: "my facebook page",
+            imgPath: "60c6190b2213a24e78b02140",
+            link: "https://facebook.com",
+          },
+        ],
+      })
+    );
+  }),
 ];

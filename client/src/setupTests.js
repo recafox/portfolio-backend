@@ -6,7 +6,11 @@ import "@testing-library/jest-dom";
 import { server } from "./mocks/server.js";
 
 // Establish API mocking before all tests.
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+  window.URL.createObjectURL = jest.fn();
+  window.URL.createObjectURL.mockReturnValue("mockedsrc");
+});
 // Reset any request handlers that we may add during the tests,
 // so they don't affect other tests.
 afterEach(() => server.resetHandlers());

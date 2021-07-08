@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Label = styled.label`
@@ -49,10 +49,23 @@ const UploaderButton = styled.button`
 const ImageUploader = (props) => {
   const fileInput = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [src, setSrc] = useState(props.imageSrc ? props.imageSrc : null);
-  const [uploaded, setUploaded] = useState(props.imageSrc ? true : false);
+  const [src, setSrc] = useState(null);
+  const [uploaded, setUploaded] = useState(false);
   const [currentImageID, setCurrentImageID] = useState(null);
+
+  useEffect(() => {
+    if (props.imageSrc) {
+      setSrc(props.imageSrc);
+      setUploaded(true);
+    } else {
+      setSrc(null);
+      setUploaded(false);
+    }
+  }, [props.imageSrc]);
   const handleFileInput = (e) => {
+    if (!e.target.files[0]) {
+      return;
+    }
     const file = e.target.files[0];
     setSrc(URL.createObjectURL(e.target.files[0]));
     setSelectedFile(file);
@@ -71,7 +84,7 @@ const ImageUploader = (props) => {
   };
 
   const deleteImg = async (e) => {
-    const response = await axios({
+    await axios({
       method: "DELETE",
       url: `/image/${currentImageID}`,
     });
@@ -108,7 +121,7 @@ const ImageUploader = (props) => {
 
   const renderPreviewImg = () => {
     const content = src ? (
-      <img src={src} alt="preview-img"></img>
+      <img src={`${src}`} alt="preview-img"></img>
     ) : (
       <div className="empty-preview" data-testid="empty-preview"></div>
     );

@@ -2,7 +2,10 @@ import axios from "axios";
 import { LOGOUT } from "../../actions/types";
 import { useDispatch } from "react-redux";
 import { useState, useRef } from "react";
+
 import ImageUploader from "../components/ImageUploader";
+import PortfolioContainer from "./portfolio/PortfolioContainer";
+
 const BackendEntry = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
@@ -26,7 +29,7 @@ const BackendEntry = (props) => {
     <div>
       <button onClick={(e) => logout(e)}>logout</button>
       <h1>Backend</h1>
-      <ImageUploader></ImageUploader>
+      <PortfolioContainer></PortfolioContainer>
     </div>
   );
 };

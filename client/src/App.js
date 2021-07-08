@@ -24,6 +24,7 @@ const theme = {
   secondaryCOlor: "#171738",
   tertiaryColor: "#DFF3E4",
   supportColor: "#7180B9",
+  errorColor: "salmon",
   fontSizeStandard: "16px",
   fontSizeMidLarge: "20px",
 };

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Button = styled.button`
   height: 50px;
+  padding: 0 12px;
   background: ${(props) => props.theme.primaryColor};
   color: #fff;
   font-weight: 500;
