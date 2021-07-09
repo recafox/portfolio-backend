@@ -1,10 +1,10 @@
 const urls = {
-  image: "/image",
-  profile: "/profile",
-  demo: "/demo",
-  exp: "/exp",
-  login: "/auth/login",
-  logout: "/auth/logout",
+  imageURL: "/image",
+  profileURL: "/profile",
+  demoURL: "/demo",
+  expURL: "/exp",
+  loginURL: "/auth/login",
+  logoutURL: "/auth/logout",
 };
 
 export default urls;
