@@ -8,3 +8,8 @@ export const testFailLoginResponse = {
   succeed: false,
   message: "authentication failed",
 };
+
+export const testSuccessLogoutResponse = {
+  succeed: true,
+  message: "logout succeeded",
+};

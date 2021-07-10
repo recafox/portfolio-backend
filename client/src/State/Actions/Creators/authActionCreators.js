@@ -25,3 +25,26 @@ export const loginUser = ({ username, password }) => {
     }
   };
 };
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(urls.logoutURL);
+      if (response.data.succeed) {
+        dispatch({
+          type: actionTypes.LOGOUT_USER,
+          payload: {
+            message: null,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.LOGOUT_USER,
+        payload: {
+          message: "There was a problem connecting to the server",
+        },
+      });
+    }
+  };
+};

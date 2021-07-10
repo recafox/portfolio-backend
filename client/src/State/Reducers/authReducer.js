@@ -12,6 +12,16 @@ const authReducer = (state = {}, action) => {
         isLogin: false,
         message: action.payload.message,
       };
+    case actionTypes.LOGOUT_USER:
+      return {
+        isLogin: false,
+        message: action.payload.message,
+      };
+    case actionTypes.LOGOUT_USER_ERROR:
+      return {
+        isLogin: true,
+        message: action.payload.message,
+      };
     default:
       return state;
   }
