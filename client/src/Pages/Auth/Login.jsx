@@ -16,7 +16,11 @@ const Login = () => {
 
   const renderAlert = () => {
     if (auth.isLogin === false && auth.message) {
-      return <p role="alert">{auth.message}</p>;
+      return (
+        <p role="alert" className="alert-msg">
+          {auth.message}
+        </p>
+      );
     }
   };
 
@@ -40,11 +44,11 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></Input>
+        {renderAlert()}
         <Button type="submit" onClick={(e) => handleSubmit(e)}>
           Log in
         </Button>
       </Form>
-      {renderAlert()}
     </div>
   );
 };

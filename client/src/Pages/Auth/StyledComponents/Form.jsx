@@ -10,4 +10,8 @@ export const Form = styled.form`
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
+
+  .alert-msg {
+    color: #ff3c38;
+  }
 `;
