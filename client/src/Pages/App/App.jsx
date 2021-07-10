@@ -1,11 +1,15 @@
 import Container from "../Common/Container";
 import Routes from "./Routes";
+import { ThemeProvider } from "styled-components";
+import theme from "../../Theme";
 
 const App = () => {
   return (
-    <Container>
-      <Routes></Routes>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container>
+        <Routes></Routes>
+      </Container>
+    </ThemeProvider>
   );
 };
 

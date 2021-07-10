@@ -4,6 +4,7 @@ import Backend from "../Backend/Backend";
 import Login from "../Auth/Login";
 import Container from "../Common/Container";
 
+// cause "maximum calls" error
 const GuardedRoute = ({ component: Component, auth, ...rest }) => {
   return (
     <Route
@@ -20,7 +21,7 @@ const Routes = () => {
     <Container>
       <Switch>
         <Route exact path="/" component={Login}></Route>
-        <GuardedRoute exact path="/backend" component={Backend}></GuardedRoute>
+        <Route exact path="/backend" component={Backend}></Route>
       </Switch>
     </Container>
   );

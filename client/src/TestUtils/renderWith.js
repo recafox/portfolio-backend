@@ -1,5 +1,6 @@
 // renderWithRouter, renderReduxProvider, renderWithRouterAndProvider, renderWithRouterProviderAndUser (mimic login)
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { applyMiddleware, createStore } from "redux";
@@ -41,13 +42,13 @@ export function renderWithRouterAndProvider(
 
 export async function renderWithRouterProviderAndUser(
   ui,
-  { initialState = {} }
+  { initialState = {} } = {}
 ) {
   const store = storeFactory(initialState);
 
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={["/login"]}>{ui}</MemoryRouter>
+      <MemoryRouter initialEntries={["/"]}>{ui}</MemoryRouter>
     </Provider>
   );
 
@@ -55,6 +56,8 @@ export async function renderWithRouterProviderAndUser(
   // since server response is hard-coded
 
   // submit the form
+  const loginButton = screen.getByRole("button", { name: /log in/i });
+  userEvent.click(loginButton);
 
   return screen;
 }

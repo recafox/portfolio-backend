@@ -1,3 +1,24 @@
+/* primaryColor: "#DFF3E4",
+secondaryColor: "#7180b9",
+tertiaryColor: "#3423a6",
+quaternaryColor: "#2e1760",
+quinaryColor: "#171738",
+fontSizeStandard: "16px",
+fontSizeLarge: "24px",
+fontSizeSmall: "12px", */
+
+:root {
+  --primaryColor: #dff3e4;
+  --secondaryColor: #7180b9;
+  --tertiaryColor: #3423a6;
+  --quaternaryColor: #2e1760;
+  --quinaryColor: #171738;
+  --fontSizeStandard: 16px;
+  --fontSizeLarge: 24px;
+  --fontSizeSmall: 12px;
+}
+
 body {
   font-family: "Roboto", sans-serif;
+  background-color: var(--primaryColor);
 }
