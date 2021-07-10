@@ -2,6 +2,7 @@ import { useState } from "react";
 import useActions from "../../Hooks/useActions";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { Form, Input, Button } from "./StyledComponents";
 
 const Login = () => {
   const { loginUser } = useActions();
@@ -13,6 +14,12 @@ const Login = () => {
     return <Redirect to="/backend"></Redirect>;
   }
 
+  const renderAlert = () => {
+    if (auth.isLogin === false && auth.message) {
+      return <p role="alert">{auth.message}</p>;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     loginUser({ username, password });
@@ -20,24 +27,24 @@ const Login = () => {
 
   return (
     <div>
-      <h2>Login</h2>
-      <form>
-        <input
-          placeholder="usrename"
+      <Form>
+        <Input
+          placeholder="username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        ></input>
-        <input
+        ></Input>
+        <Input
           placeholder="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
-          log in
-        </button>
-      </form>
+        ></Input>
+        <Button type="submit" onClick={(e) => handleSubmit(e)}>
+          Log in
+        </Button>
+      </Form>
+      {renderAlert()}
     </div>
   );
 };
