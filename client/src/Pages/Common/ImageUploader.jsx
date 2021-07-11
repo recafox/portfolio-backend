@@ -1,6 +1,41 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 import urls from "../../Constants/urls";
+import styled from "styled-components";
+
+const Uploader = styled.div`
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.secondaryColor};
+  position: relative;
+
+  input {
+    display: none;
+  }
+
+  button {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    background-color: ${(props) => props.theme.tertiaryColor};
+    color: #fff;
+    border: none;
+    height: 50%;
+    border-radius: 50%;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+  }
+  .preview {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  img {
+    height: 100%;
+    width: 100%;
+  }
+`;
 
 const ImageUploader = () => {
   const fileInput = useRef(null);
@@ -55,7 +90,7 @@ const ImageUploader = () => {
     if (selected && image) {
       const src = URL.createObjectURL(image);
       return (
-        <div>
+        <div className="preview">
           <img src={src} alt="preview-img"></img>
         </div>
       );
@@ -88,7 +123,7 @@ const ImageUploader = () => {
   };
 
   return (
-    <div>
+    <Uploader className="image-uploader">
       {renderPreview()}
       <input
         type="file"
@@ -98,7 +133,7 @@ const ImageUploader = () => {
       ></input>
       {renderErrorMsg()}
       {renderButton()}
-    </div>
+    </Uploader>
   );
 };
 
