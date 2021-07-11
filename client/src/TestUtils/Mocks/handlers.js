@@ -6,6 +6,7 @@ import {
   testSuccessLogoutResponse,
   testSuccessImageUploadResponse,
   testSuccessDeleteImageResponse,
+  profileResponse,
 } from "../Data";
 
 export const handlers = [
@@ -23,5 +24,9 @@ export const handlers = [
 
   rest.delete(`${urls.imageURL}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(testSuccessDeleteImageResponse));
+  }),
+
+  rest.get(urls.profileURL, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(profileResponse)); // return null if nothing found
   }),
 ];
