@@ -6,6 +6,7 @@ const ImageUploader = () => {
   const fileInput = useRef(null);
   const [selected, setSelected] = useState(false);
   const [uploaded, setUploaded] = useState({ status: false, imgId: "" });
+  const [error, setError] = useState(false);
   const [image, setImage] = useState(null);
 
   const handleClick = (e) => {
@@ -18,22 +19,36 @@ const ImageUploader = () => {
     setSelected(true);
   };
 
+  const renderErrorMsg = () => {
+    if (error) {
+      return <p aria-label="error message">error</p>;
+    }
+  };
+
   const uploadImage = async (e) => {
     let formData = new FormData();
     formData.append("image", fileInput.current.files[0]);
-
-    const response = await axios.post(urls.imageURL, formData);
-    setUploaded({ status: true, imgId: response.data._id });
+    try {
+      const response = await axios.post(urls.imageURL, formData);
+      setUploaded({ status: true, imgId: response.data._id });
+      setError(false);
+    } catch (e) {
+      setError(true);
+    }
   };
 
   const deleteImage = async (e) => {
-    const response = await axios({
-      method: "DELETE",
-      url: `${urls.imageURL}/${uploaded.imgId}`,
-    });
-
-    setSelected(false);
-    setUploaded({ status: false, imgId: "" });
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: `${urls.imageURL}/${uploaded.imgId}`,
+      });
+      setSelected(false);
+      setUploaded({ status: false, imgId: "" });
+      setError(false);
+    } catch (e) {
+      setError(true);
+    }
   };
 
   const renderPreview = () => {
@@ -81,6 +96,7 @@ const ImageUploader = () => {
         data-testid="file-uploader"
         onChange={(e) => handleOnChange(e)}
       ></input>
+      {renderErrorMsg()}
       {renderButton()}
     </div>
   );

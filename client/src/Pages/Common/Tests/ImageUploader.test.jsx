@@ -2,6 +2,9 @@ import userEvents from "@testing-library/user-event";
 import { screen, render, waitFor } from "@testing-library/react";
 import ImageUploader from "../ImageUploader";
 import userEvent from "@testing-library/user-event";
+import urls from "../../../Constants/urls";
+import { rest } from "msw";
+import { server } from "../../../TestUtils/Mocks/server";
 
 test("error-free image upload flow", async () => {
   global.URL.createObjectURL = jest.fn();
@@ -48,4 +51,24 @@ test("error-free image upload flow", async () => {
     expect(previewImageAfterDeleted).toBe(null);
     expect(deleteButtonAfterDeleted).toBe(null);
   });
+});
+
+test("error uploading image flow", async () => {
+  global.URL.createObjectURL = jest.fn();
+  global.URL.createObjectURL.mockReturnValue("mocked-image-src");
+  server.resetHandlers(
+    rest.post(urls.imageURL, (req, res, ctx) => {
+      return res(ctx.status(500));
+    })
+  );
+  render(<ImageUploader></ImageUploader>);
+  const fileInput = screen.getByTestId("file-uploader");
+  const imageFile = new File(["hello"], "hello.png", { type: "image/png" });
+  userEvent.upload(fileInput, imageFile);
+
+  const uploadButton = screen.getByLabelText("upload image");
+  userEvent.click(uploadButton);
+
+  const alertMsg = await screen.findByLabelText("error message");
+  expect(alertMsg).toBeInTheDocument();
 });
