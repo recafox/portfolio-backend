@@ -13,3 +13,7 @@ export const testSuccessLogoutResponse = {
   succeed: true,
   message: "logout succeeded",
 };
+
+export const testSuccessImageUploadResponse = {
+  _id: "60eadfe09eef676b88102d61",
+};
