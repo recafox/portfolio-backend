@@ -5,6 +5,7 @@ import urls from "../../Constants/urls";
 const ImageUploader = () => {
   const fileInput = useRef(null);
   const [selected, setSelected] = useState(false);
+  const [uploaded, setUploaded] = useState({ status: false, imgId: "" });
   const [image, setImage] = useState(null);
 
   const handleClick = (e) => {
@@ -18,11 +19,21 @@ const ImageUploader = () => {
   };
 
   const uploadImage = async (e) => {
-    console.log("upload this", fileInput.current.files[0]);
-    const response = await axios.post(urls.imageURL, {
-      image: fileInput.current.files[0],
+    let formData = new FormData();
+    formData.append("image", fileInput.current.files[0]);
+
+    const response = await axios.post(urls.imageURL, formData);
+    setUploaded({ status: true, imgId: response.data._id });
+  };
+
+  const deleteImage = async (e) => {
+    const response = await axios({
+      method: "DELETE",
+      url: `${urls.imageURL}/${uploaded.imgId}`,
     });
-    console.log(response);
+
+    setSelected(false);
+    setUploaded({ status: false, imgId: "" });
   };
 
   const renderPreview = () => {
@@ -39,10 +50,18 @@ const ImageUploader = () => {
   };
 
   const renderButton = () => {
-    if (selected) {
+    if (selected && !uploaded.status) {
       return (
         <button aria-label="upload image" onClick={(e) => uploadImage(e)}>
           <i className="fas fa-arrow-up"></i>
+        </button>
+      );
+    }
+
+    if (selected && uploaded.status) {
+      return (
+        <button aria-label="delete image" onClick={(e) => deleteImage(e)}>
+          <i className="fas fa-times"></i>
         </button>
       );
     }

@@ -1,5 +1,5 @@
 import userEvents from "@testing-library/user-event";
-import { screen, render } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 import ImageUploader from "../ImageUploader";
 import userEvent from "@testing-library/user-event";
 
@@ -27,8 +27,25 @@ test("error-free image upload flow", async () => {
 
   // click upload button to upload, upload button changes into delete button after upload succeeds
   userEvent.click(uploadButton);
-  const deleteButton = await screen.findByLabelText("delete image");
-  expect(deleteButton).toBeInTheDocument();
+
+  await waitFor(() => {
+    const deleteButton = screen.getByLabelText("delete image");
+    expect(deleteButton).toBeInTheDocument();
+  });
   const uploadButtonAfterUploaded = screen.queryByLabelText("upload image");
   expect(uploadButtonAfterUploaded).toBe(null);
+
+  // delete image
+  const deleteButton = screen.getByLabelText("delete image");
+  userEvent.click(deleteButton);
+
+  // do not show preview image, delete button changes into select
+  await waitFor(() => {
+    const previewImageAfterDeleted = screen.queryByAltText("preview-img");
+    const selectButton = screen.getByLabelText("select image");
+    const deleteButtonAfterDeleted = screen.queryByLabelText("delete image");
+    expect(selectButton).toBeInTheDocument();
+    expect(previewImageAfterDeleted).toBe(null);
+    expect(deleteButtonAfterDeleted).toBe(null);
+  });
 });

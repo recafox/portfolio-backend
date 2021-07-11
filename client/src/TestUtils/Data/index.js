@@ -17,3 +17,7 @@ export const testSuccessLogoutResponse = {
 export const testSuccessImageUploadResponse = {
   _id: "60eadfe09eef676b88102d61",
 };
+
+export const testSuccessDeleteImageResponse = {
+  message: "deleted",
+};
