@@ -2,12 +2,15 @@ import axios from "axios";
 import actionTypes from "../Types";
 import urls from "../../../Constants/urls";
 
+import { LOCALSTORAGE_KEY } from "../../Reducers/authReducer";
+
 export const loginUser = ({ username, password }) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(urls.loginURL, { username, password });
       if (response.data.succeed) {
         dispatch({ type: actionTypes.LOGIN_USER });
+        localStorage.setItem(LOCALSTORAGE_KEY, true);
       }
       if (!response.data.succeed) {
         dispatch({
@@ -37,6 +40,7 @@ export const logoutUser = () => {
             message: null,
           },
         });
+        localStorage.removeItem(LOCALSTORAGE_KEY);
       }
     } catch (error) {
       dispatch({

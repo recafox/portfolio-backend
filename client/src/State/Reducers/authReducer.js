@@ -1,6 +1,13 @@
 import actionTypes from "../Actions/Types";
 
-const authReducer = (state = {}, action) => {
+export const LOCALSTORAGE_KEY = "rita_is_here";
+
+function getUserFromStorage() {
+  const storedUser = localStorage.getItem(LOCALSTORAGE_KEY);
+  return storedUser ? true : false;
+}
+
+const authReducer = (state = { isLogin: getUserFromStorage() }, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_USER:
       return {
