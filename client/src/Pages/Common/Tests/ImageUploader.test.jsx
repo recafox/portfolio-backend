@@ -9,17 +9,17 @@ import { server } from "../../../TestUtils/Mocks/server";
 test("error-free image upload flow", async () => {
   global.URL.createObjectURL = jest.fn();
   global.URL.createObjectURL.mockReturnValue("mocked-image-src");
-  render(<ImageUploader></ImageUploader>);
+  render(<ImageUploader testId={"testing"}></ImageUploader>);
 
   // before any image is selected, show select
-  const fileInput = screen.getByTestId("file-uploader");
+  const fileInput = screen.getByTestId("testing-image-uploader");
   const selectButton = screen.getByLabelText("select image");
   expect(selectButton).toBeInTheDocument();
   const imageFile = new File(["hello"], "hello.png", { type: "image/png" });
   userEvent.upload(fileInput, imageFile);
 
   // after a image is selected, show preview img
-  const previewImg = await screen.findByAltText("preview-img");
+  const previewImg = await screen.findByAltText("testing-preview-img");
   expect(previewImg).toBeInTheDocument();
 
   // select button changes into upload button
@@ -44,7 +44,9 @@ test("error-free image upload flow", async () => {
 
   // do not show preview image, delete button changes into select
   await waitFor(() => {
-    const previewImageAfterDeleted = screen.queryByAltText("preview-img");
+    const previewImageAfterDeleted = screen.queryByAltText(
+      "testing-preview-img"
+    );
     const selectButton = screen.getByLabelText("select image");
     const deleteButtonAfterDeleted = screen.queryByLabelText("delete image");
     expect(selectButton).toBeInTheDocument();
@@ -61,8 +63,8 @@ test("error uploading image flow", async () => {
       return res(ctx.status(500));
     })
   );
-  render(<ImageUploader></ImageUploader>);
-  const fileInput = screen.getByTestId("file-uploader");
+  render(<ImageUploader testId="testing"></ImageUploader>);
+  const fileInput = screen.getByTestId("testing-image-uploader");
   const imageFile = new File(["hello"], "hello.png", { type: "image/png" });
   userEvent.upload(fileInput, imageFile);
 

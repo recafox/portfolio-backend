@@ -34,13 +34,13 @@ export const logoutUser = () => {
     try {
       const response = await axios.post(urls.logoutURL);
       if (response.data.succeed) {
+        localStorage.removeItem(LOCALSTORAGE_KEY);
         dispatch({
           type: actionTypes.LOGOUT_USER,
           payload: {
             message: null,
           },
         });
-        localStorage.removeItem(LOCALSTORAGE_KEY);
       }
     } catch (error) {
       dispatch({

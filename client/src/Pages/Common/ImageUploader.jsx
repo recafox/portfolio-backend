@@ -37,7 +37,7 @@ const Uploader = styled.div`
   }
 `;
 
-const ImageUploader = () => {
+const ImageUploader = ({ testId, onUploaded }) => {
   const fileInput = useRef(null);
   const [selected, setSelected] = useState(false);
   const [uploaded, setUploaded] = useState({ status: false, imgId: "" });
@@ -66,6 +66,7 @@ const ImageUploader = () => {
     try {
       const response = await axios.post(urls.imageURL, formData);
       setUploaded({ status: true, imgId: response.data._id });
+      onUploaded(response.data._id);
       setError(false);
     } catch (e) {
       setError(true);
@@ -91,7 +92,7 @@ const ImageUploader = () => {
       const src = URL.createObjectURL(image);
       return (
         <div className="preview">
-          <img src={src} alt="preview-img"></img>
+          <img src={src} alt={`${testId}-preview-img`}></img>
         </div>
       );
     } else {
@@ -128,7 +129,7 @@ const ImageUploader = () => {
       <input
         type="file"
         ref={fileInput}
-        data-testid="file-uploader"
+        data-testid={`${testId}-image-uploader`}
         onChange={(e) => handleOnChange(e)}
       ></input>
       {renderErrorMsg()}

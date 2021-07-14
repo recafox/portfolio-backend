@@ -8,6 +8,8 @@ import { renderWithRouterProviderAndUser } from "../../../TestUtils/renderWith";
 import { waitFor } from "@testing-library/react";
 
 test("error-free login / logout flow", async () => {
+  Storage.prototype.getItem = jest.fn();
+  Storage.prototype.getItem.mockReturnValue(null);
   const normalScreen = await renderWithRouterProviderAndUser(<App></App>);
 
   // show backend page
@@ -19,6 +21,7 @@ test("error-free login / logout flow", async () => {
   // logout flow
   const logoutButton = normalScreen.getByRole("button", { name: /logout/i });
   userEvent.click(logoutButton);
+  normalScreen.debug();
 
   await waitFor(() => {
     expect(
