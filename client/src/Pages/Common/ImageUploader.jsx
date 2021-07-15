@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useRef, useState, forwardRef, useImperativeHandle } from "react";
 import urls from "../../Constants/urls";
 import styled from "styled-components";
 
@@ -37,12 +37,20 @@ const Uploader = styled.div`
   }
 `;
 
-const ImageUploader = ({ testId, onUploaded }) => {
+const ImageUploader = forwardRef(({ testId, onUploaded }, ref) => {
   const fileInput = useRef(null);
   const [selected, setSelected] = useState(false);
   const [uploaded, setUploaded] = useState({ status: false, imgId: "" });
   const [error, setError] = useState(false);
   const [image, setImage] = useState(null);
+
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      setSelected(false);
+      setUploaded({ status: false, imgId: "" });
+      setImage(null);
+    },
+  }));
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -136,6 +144,6 @@ const ImageUploader = ({ testId, onUploaded }) => {
       {renderButton()}
     </Uploader>
   );
-};
+});
 
 export default ImageUploader;

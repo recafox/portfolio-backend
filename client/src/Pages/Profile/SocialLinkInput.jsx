@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ImageUploader from "../Common/ImageUploader";
 
 const SocialLinkInput = ({ onSubmit }) => {
+  const imgUploaderRef = useRef();
   const [linkItem, setLinkItem] = useState({
     imgPath: "",
     name: "",
@@ -18,6 +19,7 @@ const SocialLinkInput = ({ onSubmit }) => {
       description: "",
       link: "",
     });
+    imgUploaderRef.current.reset();
   };
 
   const onImageUploaded = (imgID) => {
@@ -27,6 +29,7 @@ const SocialLinkInput = ({ onSubmit }) => {
   return (
     <div>
       <ImageUploader
+        ref={imgUploaderRef}
         testId={"social-link"}
         onUploaded={onImageUploaded}
       ></ImageUploader>

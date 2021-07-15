@@ -7,7 +7,8 @@ const profileReducer = (state = null, action) => {
         return action.payload[0];
       }
       return {};
-
+    case actionTypes.EDIT_PROFILE:
+      return { ...state, message: action.payload };
     default:
       return state;
   }

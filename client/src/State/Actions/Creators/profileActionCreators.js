@@ -12,3 +12,17 @@ export const getProfile = () => {
     }
   };
 };
+
+export const editProfile = (profile) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(urls.profileURL, profile);
+      dispatch({ type: actionTypes.EDIT_PROFILE, payload: "success" });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.EDIT_PROFILE,
+        payload: "error connecting to server!",
+      });
+    }
+  };
+};

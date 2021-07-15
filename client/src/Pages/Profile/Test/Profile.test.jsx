@@ -1,5 +1,6 @@
 import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
 import { profileResponse } from "../../../TestUtils/Data/index";
+import { wait, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { server } from "../../../TestUtils/Mocks/server";
 import urls from "../../../Constants/urls";
@@ -105,4 +106,34 @@ test("error-free add profile flow", async () => {
 
   const socialLinkItem = await screen.getByLabelText("social link item");
   expect(socialLinkItem).toHaveTextContent("a cat bot account");
+  expect(socialLinkItem).toHaveTextContent("instagram.com");
+  expect(socialLinkItem).toHaveTextContent("instagram");
+
+  // add a skill
+  const skillImageUploader = screen.getByTestId("skill-image-uploader");
+  const skillImage = new File(["react"], "react.png", { type: "image/png" });
+  userEvent.upload(skillImageUploader, skillImage);
+
+  const skillPreviewImg = await screen.findByAltText("skill-preview-img");
+  expect(skillPreviewImg).toBeInTheDocument();
+
+  const skillNameInput = screen.getByPlaceholderText("技能名稱");
+  userEvent.clear(skillNameInput);
+  userEvent.type(skillNameInput, "react");
+  const skillDescriptionInput = screen.getByPlaceholderText("技能說明");
+  userEvent.clear(skillDescriptionInput);
+  userEvent.type(skillDescriptionInput, "ok");
+  const addSkillButton = screen.getByLabelText("add skill button");
+  userEvent.click(addSkillButton);
+
+  const skillItem = await screen.getByLabelText("skill item");
+  expect(skillItem).toHaveTextContent("react");
+
+  const editProfileButton = screen.getByLabelText("edit profile button");
+  userEvent.click(editProfileButton);
+
+  await waitFor(() => {
+    const successMessage = screen.getByText("success");
+    expect(successMessage).toBeInTheDocument();
+  });
 });

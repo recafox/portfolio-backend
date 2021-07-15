@@ -29,4 +29,8 @@ export const handlers = [
   rest.get(urls.profileURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json([profileResponse])); // return null if nothing found
   }),
+
+  rest.post(urls.profileURL, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(profileResponse));
+  }),
 ];

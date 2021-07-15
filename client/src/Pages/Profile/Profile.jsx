@@ -31,6 +31,8 @@ const profileResponse = {
  */
 
 const Profile = ({ profile }) => {
+  console.log(profile);
+  const { editProfile } = useActions();
   const [nickname, setNickname] = useState(
     profile.nickname ? profile.nickname : ""
   );
@@ -50,6 +52,24 @@ const Profile = ({ profile }) => {
 
   const onSocialLinkSubmit = (linkItem) => {
     setSocialLinks([...socialLinks, linkItem]);
+  };
+
+  const onSkillSubmit = (skillItem) => {
+    setSkills([...skills, skillItem]);
+  };
+
+  const submitEditedProfile = (e) => {
+    const editedProfile = {
+      nickname,
+      description,
+      skills,
+      socialLinks,
+    };
+    editProfile(editedProfile);
+  };
+
+  const renderMessage = () => {
+    return <p>{profile.message}</p>;
   };
 
   return (
@@ -76,8 +96,15 @@ const Profile = ({ profile }) => {
       </div>
       <div>
         {renderListItem(skills, "skill")}
-        <SkillInput></SkillInput>
+        <SkillInput onSubmit={onSkillSubmit}></SkillInput>
       </div>
+      <button
+        aria-label="edit profile button"
+        onClick={(e) => submitEditedProfile(e)}
+      >
+        submit
+      </button>
+      {renderMessage()}
     </div>
   );
 };
