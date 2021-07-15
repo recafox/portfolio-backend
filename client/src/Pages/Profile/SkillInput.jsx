@@ -1,5 +1,35 @@
+import styled from "styled-components";
 import { useState, useRef } from "react";
 import ImageUploader from "../Common/ImageUploader";
+
+const Wrapper = styled.div`
+  display: flex;
+  margin: 40px 0;
+  input {
+    width: 30%;
+    border: none;
+    background: transparent;
+    color: ${(props) => props.theme.secondaryColor};
+    padding-left: 10px;
+    &::placeholder {
+      color: ${(props) => props.theme.secondaryColor};
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+  .submit-btn {
+    height: 50px;
+    width: 50px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 24px;
+    color: ${(props) => props.theme.tertiaryColor};
+    margin-left: auto;
+  }
+`;
 
 const SkillInput = ({ onSubmit }) => {
   const imgUploaderRef = useRef();
@@ -24,7 +54,7 @@ const SkillInput = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <Wrapper>
       <ImageUploader
         ref={imgUploaderRef}
         testId={"skill"}
@@ -42,10 +72,14 @@ const SkillInput = ({ onSubmit }) => {
           setSkillItem({ ...skillItem, description: e.target.value })
         }
       ></input>
-      <button aria-label="add skill button" onClick={(e) => handleSubmit()}>
+      <button
+        className="submit-btn"
+        aria-label="add skill button"
+        onClick={(e) => handleSubmit()}
+      >
         <i className="fas fa-plus"></i>
       </button>
-    </div>
+    </Wrapper>
   );
 };
 

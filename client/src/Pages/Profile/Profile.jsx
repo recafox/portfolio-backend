@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import SocialLinkInput from "./SocialLinkInput";
@@ -30,8 +31,47 @@ const profileResponse = {
 };
  */
 
+const Wrapper = styled.div`
+  margin-top: 30px;
+  .nickname-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    input {
+      margin-left: 20px;
+      width: 250px;
+      border: none;
+      border-bottom: 1px solid ${(props) => props.theme.secondaryColor};
+      background: transparent;
+      color: ${(props) => props.theme.secondaryColor};
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  .description-input {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+
+    textarea {
+      margin-left: 20px;
+      height: 75px;
+      width: 500px;
+      background-color: transparent;
+      border: 1px solid ${(props) => props.theme.secondaryColor};
+      color: ${(props) => props.theme.secondaryColor};
+      padding: 5px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+`;
+
 const Profile = ({ profile }) => {
-  console.log(profile);
   const { editProfile } = useActions();
   const [nickname, setNickname] = useState(
     profile.nickname ? profile.nickname : ""
@@ -46,7 +86,12 @@ const Profile = ({ profile }) => {
 
   const renderListItem = (list, type) => {
     return list.map((item) => (
-      <ListItem item={item} key={item.name} type={type}></ListItem>
+      <ListItem
+        className="list-item"
+        item={item}
+        key={item.name}
+        type={type}
+      ></ListItem>
     ));
   };
 
@@ -73,8 +118,8 @@ const Profile = ({ profile }) => {
   };
 
   return (
-    <div>
-      <label>
+    <Wrapper>
+      <label className="nickname-input">
         暱稱
         <input
           role="textbox"
@@ -82,7 +127,7 @@ const Profile = ({ profile }) => {
           onChange={(e) => setNickname(e.target.value)}
         ></input>
       </label>
-      <label>
+      <label className="description-input">
         介紹
         <textarea
           role="textbox"
@@ -105,7 +150,7 @@ const Profile = ({ profile }) => {
         submit
       </button>
       {renderMessage()}
-    </div>
+    </Wrapper>
   );
 };
 

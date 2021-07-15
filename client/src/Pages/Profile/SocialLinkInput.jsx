@@ -1,5 +1,35 @@
+import styled from "styled-components";
 import { useState, useRef } from "react";
 import ImageUploader from "../Common/ImageUploader";
+
+const Wrapper = styled.div`
+  display: flex;
+  margin: 40px 0;
+  input {
+    width: 30%;
+    border: none;
+    background: transparent;
+    color: ${(props) => props.theme.secondaryColor};
+    padding-left: 10px;
+    &::placeholder {
+      color: ${(props) => props.theme.secondaryColor};
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+  .submit-btn {
+    height: 50px;
+    width: 50px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 24px;
+    color: ${(props) => props.theme.tertiaryColor};
+    margin-left: auto;
+  }
+`;
 
 const SocialLinkInput = ({ onSubmit }) => {
   const imgUploaderRef = useRef();
@@ -27,7 +57,7 @@ const SocialLinkInput = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <Wrapper>
       <ImageUploader
         ref={imgUploaderRef}
         testId={"social-link"}
@@ -51,12 +81,13 @@ const SocialLinkInput = ({ onSubmit }) => {
         }
       ></input>
       <button
+        className="submit-btn"
         aria-label="add social link button"
         onClick={(e) => handleSubmit(linkItem)}
       >
         <i className="fas fa-plus"></i>
       </button>
-    </div>
+    </Wrapper>
   );
 };
 
