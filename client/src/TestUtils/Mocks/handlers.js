@@ -7,6 +7,7 @@ import {
   testSuccessImageUploadResponse,
   testSuccessDeleteImageResponse,
   profileResponse,
+  demoResponse,
 } from "../Data";
 
 export const handlers = [
@@ -32,5 +33,9 @@ export const handlers = [
 
   rest.post(urls.profileURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(profileResponse));
+  }),
+
+  rest.get(urls.demoURL, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(demoResponse));
   }),
 ];

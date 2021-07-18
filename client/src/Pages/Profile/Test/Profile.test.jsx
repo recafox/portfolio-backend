@@ -137,3 +137,30 @@ test("error-free add profile flow", async () => {
     expect(successMessage).toBeInTheDocument();
   });
 });
+
+test("delete social link and skill flow", () => {
+  const screen = renderWithRouterAndProvider(<App></App>, {
+    initialRouterEntries: ["/backend"],
+    initialState: {
+      auth: {
+        isLogin: true,
+        message: null,
+      },
+      profile: profileResponse,
+    },
+  });
+
+  // delete a social link
+  const deleteSocialLinkButton = screen.getByLabelText(
+    "delete social link facebook"
+  );
+  userEvent.click(deleteSocialLinkButton);
+  const socialLinkItem = screen.queryAllByLabelText("social link item");
+  expect(socialLinkItem.length).toBe(0);
+
+  // delete a skill
+  const deleteSkillButton = screen.getByLabelText(/delete skill react/i);
+  userEvent.click(deleteSkillButton);
+  const skillItem = screen.queryAllByLabelText("skill item");
+  expect(skillItem.length).toBe(0);
+});

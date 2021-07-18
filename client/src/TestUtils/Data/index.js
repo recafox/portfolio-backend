@@ -44,3 +44,14 @@ export const profileResponse = {
     },
   ],
 };
+
+export const demoResponse = [
+  {
+    _id: "60f43c7fcb66304ed0d48083",
+    name: "a react project",
+    githubLink: "https://sfsdfsdf.com",
+    demoLink: "httos://wrwerwerrwe.com",
+    description: "a simple react project",
+    __v: 0,
+  },
+];

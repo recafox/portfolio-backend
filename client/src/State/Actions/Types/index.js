@@ -5,6 +5,7 @@ const actionTypes = {
   LOGOUT_USER_ERROR: "LOGOUT_USER_ERROR",
   GET_PROFILE: "GET_PROFILE",
   EDIT_PROFILE: "EDIT_PROFILE",
+  GET_DEMO: "GET_DEMO",
 };
 
 export default actionTypes;

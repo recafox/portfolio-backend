@@ -84,9 +84,21 @@ const Profile = ({ profile }) => {
     profile.socialLinks ? profile.socialLinks : []
   );
 
+  const deleteItem = (item, type) => {
+    let newList;
+    if (type === "social link") {
+      newList = socialLinks.filter((link) => link.name !== item.name);
+      setSocialLinks(newList);
+    } else if (type === "skill") {
+      newList = skills.filter((link) => link.name !== item.name);
+      setSkills(newList);
+    }
+  };
+
   const renderListItem = (list, type) => {
     return list.map((item) => (
       <ListItem
+        onDelete={deleteItem}
         className="list-item"
         item={item}
         key={item.name}
