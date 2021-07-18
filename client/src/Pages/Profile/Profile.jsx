@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import axios from "axios";
+import urls from "../../Constants/urls";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import SocialLinkInput from "./SocialLinkInput";
 import SkillInput from "./SkillInput";
 import useActions from "../../Hooks/useActions";
@@ -84,8 +85,14 @@ const Profile = ({ profile }) => {
     profile.socialLinks ? profile.socialLinks : []
   );
 
-  const deleteItem = (item, type) => {
+  const deleteItem = async (item, type) => {
     let newList;
+    console.log(item);
+    // delete img in db
+    await axios({
+      method: "DELETE",
+      url: `${urls.imageURL}/${item.imgPath}`,
+    });
     if (type === "social link") {
       newList = socialLinks.filter((link) => link.name !== item.name);
       setSocialLinks(newList);

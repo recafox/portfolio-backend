@@ -1,11 +1,7 @@
 import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
 import { profileResponse } from "../../../TestUtils/Data/index";
-import { wait, waitFor } from "@testing-library/react";
-import { rest } from "msw";
-import { server } from "../../../TestUtils/Mocks/server";
-import urls from "../../../Constants/urls";
+import { waitFor } from "@testing-library/react";
 import App from "../../App/App";
-import Backend from "../../Backend/Backend";
 import userEvent from "@testing-library/user-event";
 // testing profile
 // render nothing if nothing is returned from server
@@ -138,7 +134,7 @@ test("error-free add profile flow", async () => {
   });
 });
 
-test("delete social link and skill flow", () => {
+test("delete social link and skill flow", async () => {
   const screen = renderWithRouterAndProvider(<App></App>, {
     initialRouterEntries: ["/backend"],
     initialState: {
@@ -155,12 +151,16 @@ test("delete social link and skill flow", () => {
     "delete social link facebook"
   );
   userEvent.click(deleteSocialLinkButton);
-  const socialLinkItem = screen.queryAllByLabelText("social link item");
-  expect(socialLinkItem.length).toBe(0);
+  await waitFor(() => {
+    const socialLinkItem = screen.queryAllByLabelText("social link item");
+    expect(socialLinkItem.length).toBe(0);
+  });
 
   // delete a skill
   const deleteSkillButton = screen.getByLabelText(/delete skill react/i);
   userEvent.click(deleteSkillButton);
-  const skillItem = screen.queryAllByLabelText("skill item");
-  expect(skillItem.length).toBe(0);
+  await waitFor(() => {
+    const skillItem = screen.queryAllByLabelText("skill item");
+    expect(skillItem.length).toBe(0);
+  });
 });
