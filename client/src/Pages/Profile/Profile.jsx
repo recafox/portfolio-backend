@@ -34,9 +34,25 @@ const profileResponse = {
 
 const Wrapper = styled.div`
   margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+
+  .submit-button {
+    flex-grow: 0;
+    height: 50px;
+    background: ${(props) => props.theme.secondaryColor};
+    padding: 0 20px;
+    margin: 0 auto;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   .nickname-input {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
     input {
       margin-left: 20px;
@@ -54,11 +70,12 @@ const Wrapper = styled.div`
   .description-input {
     display: flex;
     align-items: flex-start;
+    justify-content: center;
     margin-bottom: 20px;
 
     textarea {
       margin-left: 20px;
-      height: 75px;
+      height: 150px;
       width: 500px;
       background-color: transparent;
       border: 1px solid ${(props) => props.theme.secondaryColor};
@@ -128,6 +145,7 @@ const Profile = ({ profile }) => {
       skills,
       socialLinks,
     };
+
     editProfile(editedProfile);
   };
 
@@ -163,6 +181,7 @@ const Profile = ({ profile }) => {
       </div>
       <button
         aria-label="edit profile button"
+        className="submit-button"
         onClick={(e) => submitEditedProfile(e)}
       >
         submit

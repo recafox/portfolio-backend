@@ -134,6 +134,40 @@ test("error-free add profile flow", async () => {
   });
 });
 
+test("show warning if user post empty profile", async () => {
+  const screen = renderWithRouterAndProvider(<App></App>, {
+    initialRouterEntries: ["/backend"],
+    initialState: {
+      auth: {
+        isLogin: true,
+        message: null,
+      },
+      profile: {},
+    },
+  });
+
+  // empty inputs
+  const nicknameInput = screen.getByRole("textbox", { name: "暱稱" });
+  userEvent.clear(nicknameInput);
+  const descriptionInput = screen.getByRole("textbox", { name: "介紹" });
+  userEvent.clear(descriptionInput);
+
+  // no skill
+  const skillItem = screen.queryAllByLabelText("skill item");
+  expect(skillItem.length).toBe(0);
+
+  const socialLinkItem = screen.queryAllByLabelText("social link item");
+  expect(socialLinkItem.length).toBe(0);
+
+  const editProfileButton = screen.getByLabelText("edit profile button");
+  userEvent.click(editProfileButton);
+
+  await waitFor(() => {
+    const warning = screen.getByText("Do not submit empty profile!");
+    expect(warning).toBeInTheDocument();
+  });
+});
+
 test("delete social link and skill flow", async () => {
   const screen = renderWithRouterAndProvider(<App></App>, {
     initialRouterEntries: ["/backend"],

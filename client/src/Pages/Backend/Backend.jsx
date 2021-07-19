@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useEffect } from "react";
 import Nav from "../App/Nav/Nav";
 import { useSelector } from "react-redux";
@@ -5,6 +6,13 @@ import { Redirect } from "react-router-dom";
 import useActions from "../../Hooks/useActions";
 import Profile from "../Profile/Profile";
 import Demo from "../Demo/Demo";
+
+const SectionHeader = styled.h2`
+  font-size: 32px;
+  font-weight: 500;
+  text-align: center;
+  font-family: "Microsoft JhengHei", sans-serif;
+`;
 
 const Backend = () => {
   const auth = useSelector((state) => state.auth);
@@ -25,6 +33,7 @@ const Backend = () => {
     if (profile) {
       return (
         <div>
+          <SectionHeader>個人檔案</SectionHeader>
           <Profile profile={profile}></Profile>
         </div>
       );
@@ -37,6 +46,7 @@ const Backend = () => {
     if (demo) {
       return (
         <div>
+          <SectionHeader>作品集</SectionHeader>
           <Demo demo={demo}></Demo>
         </div>
       );

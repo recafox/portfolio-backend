@@ -15,14 +15,27 @@ export const getProfile = () => {
 
 export const editProfile = (profile) => {
   return async (dispatch) => {
-    try {
-      const response = await axios.post(urls.profileURL, profile);
-      dispatch({ type: actionTypes.EDIT_PROFILE, payload: "success" });
-    } catch (error) {
+    let emptyTime = 0;
+    for (let key in profile) {
+      if (!profile[key] || !profile[key].length) {
+        emptyTime += 1;
+      }
+    }
+    if (emptyTime === Object.keys(profile).length) {
       dispatch({
         type: actionTypes.EDIT_PROFILE,
-        payload: "error connecting to server!",
+        payload: "Do not submit empty profile!",
       });
+    } else {
+      try {
+        const response = await axios.post(urls.profileURL, profile);
+        dispatch({ type: actionTypes.EDIT_PROFILE, payload: "success" });
+      } catch (error) {
+        dispatch({
+          type: actionTypes.EDIT_PROFILE,
+          payload: "error connecting to server!",
+        });
+      }
     }
   };
 };
