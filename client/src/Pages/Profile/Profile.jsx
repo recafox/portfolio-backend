@@ -87,7 +87,6 @@ const Profile = ({ profile }) => {
 
   const deleteItem = async (item, type) => {
     let newList;
-    console.log(item);
     // delete img in db
     await axios({
       method: "DELETE",
