@@ -7,6 +7,8 @@ const Demo = ({ demo }) => {
       return demo.map((demoItem) => (
         <Card item={demoItem} key={demoItem.name}></Card>
       ));
+    } else {
+      return "";
     }
   };
 

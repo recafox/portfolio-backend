@@ -6,6 +6,7 @@ const actionTypes = {
   GET_PROFILE: "GET_PROFILE",
   EDIT_PROFILE: "EDIT_PROFILE",
   GET_DEMO: "GET_DEMO",
+  ADD_DEMO: "ADD_DEMO",
 };
 
 export default actionTypes;

@@ -14,6 +14,9 @@ const InputCard = (props) => {
         <input type="text"></input>
       </label>
       <textarea placeholder="demo說明"></textarea>
+      <button aria-label="submit demo">
+        <i className="fas fa-plus"></i>
+      </button>
     </div>
   );
 };
