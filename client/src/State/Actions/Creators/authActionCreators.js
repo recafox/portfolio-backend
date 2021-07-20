@@ -10,20 +10,22 @@ export const loginUser = ({ username, password }) => {
       const response = await axios.post(urls.loginURL, { username, password });
       if (response.data.succeed) {
         dispatch({ type: actionTypes.LOGIN_USER });
+        dispatch({
+          type: actionTypes.SET_ALERT,
+          payload: { isError: false, content: "login success" },
+        });
         localStorage.setItem(LOCALSTORAGE_KEY, true);
       }
       if (!response.data.succeed) {
         dispatch({
-          type: actionTypes.LOGIN_USER_ERROR,
-          payload: { message: response.data.message },
+          type: actionTypes.SET_ALERT,
+          payload: { isError: false, content: "authentication failed" },
         });
       }
     } catch (error) {
       dispatch({
-        type: actionTypes.LOGIN_USER_ERROR,
-        payload: {
-          message: "There was a problem connecting to the server",
-        },
+        type: actionTypes.SET_ALERT,
+        payload: { isError: false, content: "error connecting to server" },
       });
     }
   };
@@ -44,10 +46,8 @@ export const logoutUser = () => {
       }
     } catch (error) {
       dispatch({
-        type: actionTypes.LOGOUT_USER,
-        payload: {
-          message: "There was a problem connecting to the server",
-        },
+        type: actionTypes.SET_ALERT,
+        payload: { isError: false, content: "error connecting to server" },
       });
     }
   };

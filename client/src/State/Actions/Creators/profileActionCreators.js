@@ -23,17 +23,30 @@ export const editProfile = (profile) => {
     }
     if (emptyTime === Object.keys(profile).length) {
       dispatch({
-        type: actionTypes.EDIT_PROFILE,
-        payload: "Do not submit empty profile!",
+        type: actionTypes.SET_ALERT,
+        payload: {
+          isError: true,
+          content: "Do not submit empty profile!",
+        },
       });
     } else {
       try {
         const response = await axios.post(urls.profileURL, profile);
-        dispatch({ type: actionTypes.EDIT_PROFILE, payload: "success" });
+        dispatch({ type: actionTypes.EDIT_PROFILE });
+        dispatch({
+          type: actionTypes.SET_ALERT,
+          payload: {
+            isError: false,
+            content: "success",
+          },
+        });
       } catch (error) {
         dispatch({
-          type: actionTypes.EDIT_PROFILE,
-          payload: "error connecting to server!",
+          type: actionTypes.SET_ALERT,
+          payload: {
+            isError: true,
+            content: "error connecting to server!",
+          },
         });
       }
     }

@@ -149,10 +149,6 @@ const Profile = ({ profile }) => {
     editProfile(editedProfile);
   };
 
-  const renderMessage = () => {
-    return <p>{profile.message}</p>;
-  };
-
   return (
     <Wrapper>
       <label className="nickname-input">
@@ -186,7 +182,6 @@ const Profile = ({ profile }) => {
       >
         submit
       </button>
-      {renderMessage()}
     </Wrapper>
   );
 };

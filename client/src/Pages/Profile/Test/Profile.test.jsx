@@ -129,8 +129,8 @@ test("error-free add profile flow", async () => {
   userEvent.click(editProfileButton);
 
   await waitFor(() => {
-    const successMessage = screen.getByText("success");
-    expect(successMessage).toBeInTheDocument();
+    const successMessage = screen.getByRole("alert");
+    expect(successMessage).toHaveTextContent("success");
   });
 });
 
@@ -163,8 +163,8 @@ test("show warning if user post empty profile", async () => {
   userEvent.click(editProfileButton);
 
   await waitFor(() => {
-    const warning = screen.getByText("Do not submit empty profile!");
-    expect(warning).toBeInTheDocument();
+    const warning = screen.getByRole("alert");
+    expect(warning).toHaveTextContent("Do not submit empty profile!");
   });
 });
 

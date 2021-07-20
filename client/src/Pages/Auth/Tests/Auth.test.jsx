@@ -60,9 +60,7 @@ test("server error login flow", async () => {
 
   const loginScreen = await renderWithRouterProviderAndUser(<App></App>);
   const loginFailAlert = await loginScreen.findByRole("alert");
-  expect(loginFailAlert.textContent).toBe(
-    "There was a problem connecting to the server"
-  );
+  expect(loginFailAlert.textContent).toBe("error connecting to server");
 
   // confirm user remains on login page
   const loginHeader = await loginScreen.findByRole("button", {
