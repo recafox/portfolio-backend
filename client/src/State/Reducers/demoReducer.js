@@ -5,11 +5,8 @@ const demoReducer = (state = null, action) => {
     case actionTypes.GET_DEMO:
       return action.payload;
     case actionTypes.ADD_DEMO:
-      let newState = state ? state : [];
-      if (action.payload.item) {
-        return [...newState, action.payload.item];
-      } else {
-      }
+      console.log("ADD DEMO", [...state, action.payload.item]);
+      return [...state, action.payload.item];
     default:
       return state;
   }

@@ -13,20 +13,19 @@ export const getDemo = () => {
 export const addDemo = (demo) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(urls.demoURL);
+      const response = await axios.post(urls.demoURL, demo);
       dispatch({
         type: actionTypes.ADD_DEMO,
         payload: {
           item: demo,
-          message: "success",
         },
       });
     } catch (error) {
       dispatch({
-        type: actioTypes.ADD_DEMO,
+        type: actionTypes.SET_ALERT,
         payload: {
-          item: null,
-          message: "error connecting to server!",
+          isError: true,
+          content: "error connecting to server!",
         },
       });
     }

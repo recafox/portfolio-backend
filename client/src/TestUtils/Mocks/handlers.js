@@ -38,4 +38,8 @@ export const handlers = [
   rest.get(urls.demoURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(demoResponse));
   }),
+
+  rest.post(urls.demoURL, (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];

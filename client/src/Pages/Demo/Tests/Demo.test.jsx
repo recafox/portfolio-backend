@@ -10,9 +10,13 @@ import {
 } from "../../../TestUtils/renderWith";
 import { rest } from "msw";
 import { server } from "../../../TestUtils/Mocks/server";
+import { profileResponse } from "../../../TestUtils/Data";
 
 test("render blank demo input card if server returns empty, and no demo card", async () => {
   server.resetHandlers(
+    rest.get(urls.profileURL, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json([profileResponse]));
+    }),
     rest.get(urls.demoURL, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json([]));
     })
@@ -50,6 +54,17 @@ test("render blank demo input card if server returns empty, and no demo card", a
 });
 
 test("error-free add demo flow", async () => {
+  server.resetHandlers(
+    rest.get(urls.profileURL, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json([profileResponse]));
+    }),
+    rest.get(urls.demoURL, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json([]));
+    }),
+    rest.post(urls.demoURL, (req, res, ctx) => {
+      return res(ctx.status(200));
+    })
+  );
   const demoScreen = renderWithRouterAndProvider(<App></App>, {
     initialRouterEntries: ["/backend"],
     initialState: {
@@ -60,6 +75,8 @@ test("error-free add demo flow", async () => {
       demo: [],
     },
   });
+
+  const text = "lorem ipsum is the best";
   // inputs
   const demoNameInput = demoScreen.getByRole("textbox", {
     name: "demo名稱",
@@ -72,22 +89,18 @@ test("error-free add demo flow", async () => {
   });
   const demoDescriptionInput = demoScreen.getByPlaceholderText("demo說明");
 
-  const inputs = [
-    demoNameInput,
-    gitLinkInput,
-    demoLinkInput,
-    demoDescriptionInput,
-  ];
-  inputs.forEach((input) => {
-    userEvent.clear(input);
-    userEvent.type(input, "lorem ipsum");
-  });
-
-  demoScreen.debug();
+  userEvent.clear(demoNameInput);
+  userEvent.type(demoNameInput, text);
+  userEvent.clear(gitLinkInput);
+  userEvent.type(gitLinkInput, text);
+  userEvent.clear(demoLinkInput);
+  userEvent.type(demoLinkInput, text);
+  userEvent.clear(demoDescriptionInput);
+  userEvent.type(demoDescriptionInput, text);
 
   const submitButton = demoScreen.getByLabelText("submit demo");
   userEvent.click(submitButton);
 
-  const demoCard = demoScreen.getByLabelText("demo card");
-  expect(demoCard).toHaveTextContent("lorem ipsum");
+  const demoCard = await demoScreen.findByLabelText("demo card");
+  expect(demoCard).toHaveTextContent(text);
 });
