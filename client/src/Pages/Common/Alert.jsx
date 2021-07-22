@@ -1,4 +1,24 @@
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+
+const Alert = styled.div`
+  position: fixed;
+  background-color: ${(props) =>
+    props.isError ? "red" : props.theme.secondaryColor};
+
+  color: #fff;
+  right: 0;
+  padding: 15px;
+  border-radius: 4px 0 0 4px;
+  top: 30%;
+  transform: translateX(100%);
+  transition: 0.3s transform ease-in-out;
+
+  &.is--displaying {
+    transform: translateX(0);
+  }
+`;
 
 function getAlertFromState(alert) {
   if (alert) {
@@ -8,20 +28,31 @@ function getAlertFromState(alert) {
 }
 
 const Warning = () => {
+  const displayClass = "is--displaying";
+  const time = 3000; // 3 secs
+  const [displaying, setDisplaying] = useState(false);
   const alert = useSelector((state) => getAlertFromState(state.alert));
 
-  function getClassName() {
-    if (alert.isError) {
-      return "is--error";
-    }
-    return "";
-  }
+  useEffect(() => {
+    setDisplaying(true);
+    let timer = window.setTimeout(function () {
+      setDisplaying(false);
+    }, time);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [alert]);
 
   if (alert) {
     return (
-      <div role="alert" className={getClassName()}>
+      <Alert
+        role="alert"
+        className={displaying ? displayClass : ""}
+        isError={alert.isError}
+      >
         {alert.content}
-      </div>
+      </Alert>
     );
   }
   return <div className="hidden"></div>;
