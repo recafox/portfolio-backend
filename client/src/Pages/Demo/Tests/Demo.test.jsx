@@ -4,21 +4,14 @@ import App from "../../App/App";
 import Demo from "../Demo";
 import Backend from "../../Backend/Backend";
 import urls from "../../../Constants/urls";
-import {
-  renderWithRouterAndProvider,
-  renderWithProvider,
-} from "../../../TestUtils/renderWith";
+import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
 import { rest } from "msw";
 import { server } from "../../../TestUtils/Mocks/server";
-import { profileResponse } from "../../../TestUtils/Data";
 
 test("render blank demo input card if server returns empty, and no demo card", async () => {
-  server.resetHandlers(
-    rest.get(urls.profileURL, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json([profileResponse]));
-    }),
+  server.use(
     rest.get(urls.demoURL, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json([]));
+      return res.once(ctx.status(200), ctx.json([]));
     })
   );
   const screen = renderWithRouterAndProvider(<App></App>, {
@@ -54,15 +47,9 @@ test("render blank demo input card if server returns empty, and no demo card", a
 });
 
 test("error-free add demo flow", async () => {
-  server.resetHandlers(
-    rest.get(urls.profileURL, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json([profileResponse]));
-    }),
+  server.use(
     rest.get(urls.demoURL, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json([]));
-    }),
-    rest.post(urls.demoURL, (req, res, ctx) => {
-      return res(ctx.status(200));
+      return res.once(ctx.status(200), ctx.json([]));
     })
   );
   const demoScreen = renderWithRouterAndProvider(<App></App>, {

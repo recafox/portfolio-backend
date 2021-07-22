@@ -6,6 +6,8 @@ import SocialLinkInput from "./SocialLinkInput";
 import SkillInput from "./SkillInput";
 import useActions from "../../Hooks/useActions";
 import ListItem from "./ListItem";
+import StyledInput from "../Common/StyledInput";
+import StyledTextarea from "../Common/StyledTextarea";
 /**
  * 
 const profileResponse = {
@@ -57,14 +59,6 @@ const Wrapper = styled.div`
     input {
       margin-left: 20px;
       width: 250px;
-      border: none;
-      border-bottom: 1px solid ${(props) => props.theme.secondaryColor};
-      background: transparent;
-      color: ${(props) => props.theme.secondaryColor};
-
-      &:focus {
-        outline: none;
-      }
     }
   }
   .description-input {
@@ -77,14 +71,6 @@ const Wrapper = styled.div`
       margin-left: 20px;
       height: 150px;
       width: 500px;
-      background-color: transparent;
-      border: 1px solid ${(props) => props.theme.secondaryColor};
-      color: ${(props) => props.theme.secondaryColor};
-      padding: 5px;
-
-      &:focus {
-        outline: none;
-      }
     }
   }
 `;
@@ -153,19 +139,19 @@ const Profile = ({ profile }) => {
     <Wrapper>
       <label className="nickname-input">
         暱稱
-        <input
+        <StyledInput
           role="textbox"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-        ></input>
+        ></StyledInput>
       </label>
       <label className="description-input">
         介紹
-        <textarea
+        <StyledTextarea
           role="textbox"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
+        ></StyledTextarea>
       </label>
       <div>
         {renderListItem(socialLinks, "social link")}

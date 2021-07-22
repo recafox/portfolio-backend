@@ -31,9 +31,9 @@ test("error-free login / logout flow", async () => {
 });
 
 test("authentication failed flow", async () => {
-  server.resetHandlers(
+  server.use(
     rest.post(urls.loginURL, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(testFailLoginResponse));
+      return res.once(ctx.status(200), ctx.json(testFailLoginResponse));
     })
   );
 
@@ -49,9 +49,9 @@ test("authentication failed flow", async () => {
 });
 
 test("server error login flow", async () => {
-  server.resetHandlers(
+  server.use(
     rest.post(urls.loginURL, (req, res, ctx) => {
-      return res(
+      return res.once(
         ctx.status(500),
         ctx.json({ message: "error connecting to server" })
       );

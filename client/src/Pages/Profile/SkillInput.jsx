@@ -1,33 +1,21 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
 import ImageUploader from "../Common/ImageUploader";
-
+import StyledButton from "../Common/StyledButton";
+import StyledInput from "../Common/StyledInput";
 const Wrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   margin: 40px 0;
   input {
-    width: 30%;
-    border: none;
-    background: transparent;
-    color: ${(props) => props.theme.secondaryColor};
+    flex-grow: 2;
     padding-left: 10px;
-    &::placeholder {
-      color: ${(props) => props.theme.secondaryColor};
-    }
-
-    &:focus {
-      outline: none;
-    }
+    text-align: center;
+    margin: 0 20px;
   }
-  .submit-btn {
-    height: 50px;
-    width: 50px;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    font-size: 24px;
-    color: ${(props) => props.theme.tertiaryColor};
-    margin-left: auto;
+
+  button {
+    align-self: center;
   }
 `;
 
@@ -60,25 +48,25 @@ const SkillInput = ({ onSubmit }) => {
         testId={"skill"}
         onUploaded={onImageUploaded}
       ></ImageUploader>
-      <input
+      <StyledInput
         placeholder="技能名稱"
         value={skillItem.name}
         onChange={(e) => setSkillItem({ ...skillItem, name: e.target.value })}
-      ></input>
-      <input
+      ></StyledInput>
+      <StyledInput
         placeholder="技能說明"
         value={skillItem.description}
         onChange={(e) =>
           setSkillItem({ ...skillItem, description: e.target.value })
         }
-      ></input>
-      <button
+      ></StyledInput>
+      <StyledButton
         className="submit-btn"
         aria-label="add skill button"
         onClick={(e) => handleSubmit()}
       >
         <i className="fas fa-plus"></i>
-      </button>
+      </StyledButton>
     </Wrapper>
   );
 };

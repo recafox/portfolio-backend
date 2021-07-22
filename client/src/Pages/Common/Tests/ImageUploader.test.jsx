@@ -58,9 +58,9 @@ test("error-free image upload flow", async () => {
 test("error uploading image flow", async () => {
   global.URL.createObjectURL = jest.fn();
   global.URL.createObjectURL.mockReturnValue("mocked-image-src");
-  server.resetHandlers(
-    rest.post(urls.imageURL, (req, res, ctx) => {
-      return res(ctx.status(500));
+  server.use(
+    rest.post(urls.loginURL, (req, res, ctx) => {
+      return res.once(ctx.status(500));
     })
   );
   render(<ImageUploader testId="testing"></ImageUploader>);

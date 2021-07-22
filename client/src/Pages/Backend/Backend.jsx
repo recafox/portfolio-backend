@@ -12,6 +12,7 @@ const SectionHeader = styled.h2`
   font-weight: 500;
   text-align: center;
   font-family: "Microsoft JhengHei", sans-serif;
+  margin-top: 70px;
 `;
 
 const Backend = () => {

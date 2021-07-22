@@ -1,4 +1,39 @@
+import styled from "styled-components";
+import StyledInput from "../Common/StyledInput";
+import StyledTextarea from "../Common/StyledTextarea";
+import StyledButton from "../Common/StyledButton";
 import { useState } from "react";
+
+const Card = styled.div`
+  border: 1px solid black;
+  position: relative;
+  padding: 15px;
+
+  label,
+  textarea {
+    display: block;
+  }
+
+  textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+  }
+
+  label {
+    margin-bottom: 20px;
+
+    input {
+      margin-left: 20px;
+    }
+  }
+
+  button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+`;
 
 const InputCard = ({ onSubmit }) => {
   const [name, setName] = useState("");
@@ -15,40 +50,40 @@ const InputCard = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <Card>
       <label>
         demo名稱
-        <input
+        <StyledInput
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-        ></input>
+        ></StyledInput>
       </label>
       <label>
         github link
-        <input
+        <StyledInput
           type="text"
           value={githubLink}
           onChange={(e) => setGithubLink(e.target.value)}
-        ></input>
+        ></StyledInput>
       </label>
       <label>
         demo連結
-        <input
+        <StyledInput
           type="text"
           value={demoLink}
           onChange={(e) => setDemoLink(e.target.value)}
-        ></input>
+        ></StyledInput>
       </label>
-      <textarea
+      <StyledTextarea
         placeholder="demo說明"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
-      <button aria-label="submit demo" onClick={handleSubmit}>
+      ></StyledTextarea>
+      <StyledButton aria-label="submit demo" onClick={handleSubmit}>
         <i className="fas fa-plus"></i>
-      </button>
-    </div>
+      </StyledButton>
+    </Card>
   );
 };
 
