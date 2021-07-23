@@ -2,11 +2,15 @@ import styled from "styled-components";
 import StyledButton from "../Common/StyledButton";
 
 const CardWrapper = styled.div`
-  border: 1px solid black;
+  border: 2px solid ${props => props.theme.secondaryColor};
+  background-color: ${props => props.theme.secondaryColor};
+  color: #fff;
+  font-family: "Roboto", 'Microsoft JhengHei', sans-serif;
   height: 300px;
   margin: 20px 0;
   padding: 15px;
   position: relative;
+  white-space: pre-line;
 
   .button-set {
     position: absolute;
@@ -17,15 +21,37 @@ const CardWrapper = styled.div`
       margin-bottom: 15px;
     }
   }
+
+  h4, p {
+    height: calc(75px / 3);
+    line-height: 22px;
+
+    i {
+      margin-right: 10px;
+    }
+  }
+
+
+  h4 {
+    font-size: 22px;
+    font-weight: 500;
+  }
+  a {
+    color: #fff;
+  }
+
+  .content {
+    margin-top: 15px;
+  }
 `;
 
 const Card = ({ item }) => {
   return (
     <CardWrapper aria-label="demo card" className="demo-card">
-      <p>{item.name}</p>
-      <p>{item.githubLink}</p>
-      <p>{item.demoLink}</p>
-      <p>{item.description}</p>
+      <h4>{item.name}</h4>
+      <p><i className="fab fa-github"></i><a href={item.githubLink}>{item.githubLink}</a></p>
+      <p><i className="fas fa-link"></i> <a href={item.demoLink}>{item.demoLink}</a></p>
+      <div className="content">{item.description}</div>
       <div className="button-set">
         <StyledButton>
           <i className="fas fa-pen"></i>
