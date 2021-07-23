@@ -45,15 +45,15 @@ const CardWrapper = styled.div`
   }
 `;
 
-const Card = ({ item }) => {
+const Card = ({ item, onEdit }) => {
   return (
-    <CardWrapper aria-label="demo card" className="demo-card">
+    <CardWrapper aria-label="demo card" className="demo-card" id={`demo-${item._id}`}>
       <h4>{item.name}</h4>
       <p><i className="fab fa-github"></i><a href={item.githubLink}>{item.githubLink}</a></p>
       <p><i className="fas fa-link"></i> <a href={item.demoLink}>{item.demoLink}</a></p>
       <div className="content">{item.description}</div>
       <div className="button-set">
-        <StyledButton>
+        <StyledButton aria-label="edit demo" onClick={e => onEdit(item)}>
           <i className="fas fa-pen"></i>
         </StyledButton>
         <StyledButton>

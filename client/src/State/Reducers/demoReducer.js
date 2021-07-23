@@ -5,8 +5,18 @@ const demoReducer = (state = null, action) => {
     case actionTypes.GET_DEMO:
       return action.payload;
     case actionTypes.ADD_DEMO:
-      console.log("ADD DEMO", [...state, action.payload.item]);
-      return [...state, action.payload.item];
+      return [...state, action.payload];
+    case actionTypes.EDIT_DEMO:
+      const editedDemo = action.payload;
+      let newState = state.map((item) => {
+        if (item._id === editedDemo._id) {
+          return editedDemo
+        } else {
+          return item;
+        }
+      });
+      return newState;
+    return;
     default:
       return state;
   }

@@ -2,10 +2,10 @@ import styled from "styled-components";
 import StyledInput from "../Common/StyledInput";
 import StyledTextarea from "../Common/StyledTextarea";
 import StyledButton from "../Common/StyledButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Card = styled.div`
-  border: 1px solid black;
+  border: 2px solid ${props => props.theme.secondaryColor};
   position: relative;
   padding: 15px;
 
@@ -25,6 +25,7 @@ const Card = styled.div`
 
     input {
       margin-left: 20px;
+      width: 50%;
     }
   }
 
@@ -35,14 +36,30 @@ const Card = styled.div`
   }
 `;
 
-const InputCard = ({ onSubmit }) => {
+const InputCard = ({ onSubmit, item, isEditing }) => {
   const [name, setName] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [demoLink, setDemoLink] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    if (item) {
+      setName(item.name);
+      setGithubLink(item.githubLink);
+      setDemoLink(item.demoLink);
+      setDescription(item.description);
+    }
+    
+  }, [item]);
+
+
   const handleSubmit = function () {
-    onSubmit({ name, githubLink, demoLink, description });
+    const submitObject = { name, githubLink, demoLink, description };
+    if (isEditing) {
+      onSubmit({ id: item._id, ...submitObject })
+    } else {
+      onSubmit({ name, githubLink, demoLink, description });
+    }
     setName("");
     setGithubLink("");
     setDemoLink("");

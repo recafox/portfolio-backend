@@ -12,6 +12,11 @@ const StyledButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  &:hover {
+    background: ${(props) => props.theme.tertiaryColor};
+    color: #fff;
+  }
 `;
 
 export default StyledButton;

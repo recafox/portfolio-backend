@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import InputCard from "./InputCard";
 import Card from "./Card";
 import useActions from "../../Hooks/useActions";
@@ -23,13 +24,14 @@ const Wrapper = styled.div`
 `;
 
 const Demo = ({ demo }) => {
-  const { addDemo } = useActions();
+  const { addDemo, editDemo } = useActions();
+  const [editItem, setEditItem] = useState(null);
 
   const renderCards = () => {
     if (demo.length) {
-      return demo.map((demoItem) => (
-        <Card item={demoItem} key={demoItem.name}></Card>
-      ));
+      return demo.map((demoItem) => {
+        return <Card item={demoItem} key={demoItem._id} onEdit={setEditItem}></Card>
+      });
     } else {
       return "";
     }
@@ -37,7 +39,7 @@ const Demo = ({ demo }) => {
 
   return (
     <Wrapper>
-      <InputCard onSubmit={addDemo}></InputCard>
+      <InputCard onSubmit={editItem ? editDemo : addDemo} isEditing={editItem ? true : false} item={editItem}></InputCard>
       <div className="card-container">{renderCards()}</div>
     </Wrapper>
   );

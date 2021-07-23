@@ -8,9 +8,13 @@ import {
   testSuccessDeleteImageResponse,
   profileResponse,
   demoResponse,
+  createdDemoResponse,
+  editedDemoResponse
 } from "../Data";
 
 export const handlers = [
+
+  // --------- AUTH
   rest.post(urls.loginURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(testSuccessLoginResponse));
   }),
@@ -19,6 +23,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(testSuccessLogoutResponse));
   }),
 
+  // --------- IMAGE
   rest.post(urls.imageURL, (req, res, ctx) => {
     return res(ctx.status(201), ctx.json(testSuccessImageUploadResponse));
   }),
@@ -27,6 +32,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(testSuccessDeleteImageResponse));
   }),
 
+  // --------- PROFILE
   rest.get(urls.profileURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json([profileResponse])); // return null if nothing found
   }),
@@ -35,11 +41,15 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(profileResponse));
   }),
 
+  // --------- DEMO
   rest.get(urls.demoURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(demoResponse));
   }),
 
   rest.post(urls.demoURL, (req, res, ctx) => {
-    return res(ctx.status(200));
+    return res(ctx.status(201), ctx.json(createdDemoResponse));
+  }),
+  rest.put(`${urls.demoURL}/:id`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(editedDemoResponse));
   }),
 ];

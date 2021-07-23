@@ -1,6 +1,7 @@
 import axios from "axios";
 import actionTypes from "../Types";
 import urls from "../../../Constants/urls";
+import { getEmptyValue } from '../../../Helpers';
 
 export const getProfile = () => {
   return async (dispatch) => {
@@ -15,13 +16,8 @@ export const getProfile = () => {
 
 export const editProfile = (profile) => {
   return async (dispatch) => {
-    let emptyTime = 0;
-    for (let key in profile) {
-      if (!profile[key] || !profile[key].length) {
-        emptyTime += 1;
-      }
-    }
-    if (emptyTime === Object.keys(profile).length) {
+
+    if (getEmptyValue(profile) === Object.keys(profile).length) {
       dispatch({
         type: actionTypes.SET_ALERT,
         payload: {

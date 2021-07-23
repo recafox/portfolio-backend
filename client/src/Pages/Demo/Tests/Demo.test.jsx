@@ -1,12 +1,11 @@
 import userEvent from "@testing-library/user-event";
 import { waitFor } from "@testing-library/react";
 import App from "../../App/App";
-import Demo from "../Demo";
-import Backend from "../../Backend/Backend";
 import urls from "../../../Constants/urls";
 import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
 import { rest } from "msw";
 import { server } from "../../../TestUtils/Mocks/server";
+import { demoResponse, createdDemoResponse, editedDemoResponse } from '../../../TestUtils/Data';
 
 test("render blank demo input card if server returns empty, and no demo card", async () => {
   server.use(
@@ -46,12 +45,101 @@ test("render blank demo input card if server returns empty, and no demo card", a
   });
 });
 
-test("error-free add demo flow", async () => {
-  server.use(
-    rest.get(urls.demoURL, (req, res, ctx) => {
-      return res.once(ctx.status(200), ctx.json([]));
-    })
-  );
+describe("add demo flow", () => {
+  let demoScreen;
+  let demoNameInput;
+  let gitLinkInput;
+  let demoLinkInput;
+  let demoDescriptionInput;
+  let submitButton;
+
+  beforeEach(() => {
+    demoScreen = renderWithRouterAndProvider(<App></App>, {
+      initialRouterEntries: ["/backend"],
+      initialState: {
+        auth: {
+          isLogin: true,
+          message: null,
+        },
+        demo: [],
+      },
+    });
+
+    server.use(
+      rest.get(urls.demoURL, (req, res, ctx) => {
+        return res.once(ctx.status(200), ctx.json([]));
+      })
+    );
+
+    demoNameInput = demoScreen.getByRole("textbox", {
+      name: "demo名稱",
+    });
+    gitLinkInput = demoScreen.getByRole("textbox", {
+      name: "github link",
+    });
+    demoLinkInput = demoScreen.getByRole("textbox", {
+      name: "demo連結",
+    });
+    demoDescriptionInput = demoScreen.getByPlaceholderText("demo說明");
+    submitButton = demoScreen.getByLabelText("submit demo");
+  });
+
+
+  test("error-free add demo flow", async () => {
+    const { name, githubLink, demoLink, description } = createdDemoResponse;
+    userEvent.clear(demoNameInput);
+    userEvent.type(demoNameInput, name);
+    userEvent.clear(gitLinkInput);
+    userEvent.type(gitLinkInput, githubLink);
+    userEvent.clear(demoLinkInput);
+    userEvent.type(demoLinkInput, demoLink);
+    userEvent.clear(demoDescriptionInput);
+    userEvent.type(demoDescriptionInput, description);
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      const demoCardAfterAdded = demoScreen.getByLabelText("demo card");
+      expect(demoCardAfterAdded).toHaveTextContent(description);
+    });
+  });
+
+  test("show warning if user submit empty content", async () => {
+    // clear all fields
+    userEvent.clear(demoNameInput);
+    userEvent.clear(gitLinkInput);
+    userEvent.clear(demoLinkInput);
+    userEvent.clear(demoDescriptionInput);
+    // submit
+    userEvent.click(submitButton);
+    
+    const warning = await demoScreen.findByRole("alert");
+    expect(warning).toHaveTextContent("Fill in EVERY field before you submit!");
+  });
+
+  test("show error message if error occurs when connecting to server", async () => {
+    server.use(
+      rest.post(urls.demoURL, (req, res, ctx) => {
+        return res.once(ctx.status(500));
+      })
+    );
+    const text = "lorem ipsum is the best";
+  
+    userEvent.clear(demoNameInput);
+    userEvent.type(demoNameInput, text);
+    userEvent.clear(gitLinkInput);
+    userEvent.type(gitLinkInput, text);
+    userEvent.clear(demoLinkInput);
+    userEvent.type(demoLinkInput, text);
+    userEvent.clear(demoDescriptionInput);
+    userEvent.type(demoDescriptionInput, text);
+    userEvent.click(submitButton);
+
+    const warning = await demoScreen.findByRole("alert");
+    expect(warning).toHaveTextContent("error connecting to server!");
+  });
+});
+
+test("edit demo flow", async () => {
   const demoScreen = renderWithRouterAndProvider(<App></App>, {
     initialRouterEntries: ["/backend"],
     initialState: {
@@ -63,31 +151,33 @@ test("error-free add demo flow", async () => {
     },
   });
 
-  const text = "lorem ipsum is the best";
-  // inputs
+  // server returns one demo card, edit it
+  const editDemoButton = await demoScreen.findByLabelText("edit demo");
+  userEvent.click(editDemoButton);
+  await waitFor(() => {
+    const demoNameInput = demoScreen.getByRole("textbox", {
+      name: "demo名稱",
+    });
+    expect(demoNameInput.value).toBe(demoResponse[0].name);
+  });
+
   const demoNameInput = demoScreen.getByRole("textbox", {
     name: "demo名稱",
   });
-  const gitLinkInput = demoScreen.getByRole("textbox", {
-    name: "github link",
-  });
-  const demoLinkInput = demoScreen.getByRole("textbox", {
-    name: "demo連結",
-  });
-  const demoDescriptionInput = demoScreen.getByPlaceholderText("demo說明");
-
-  userEvent.clear(demoNameInput);
-  userEvent.type(demoNameInput, text);
-  userEvent.clear(gitLinkInput);
-  userEvent.type(gitLinkInput, text);
-  userEvent.clear(demoLinkInput);
-  userEvent.type(demoLinkInput, text);
-  userEvent.clear(demoDescriptionInput);
-  userEvent.type(demoDescriptionInput, text);
-
   const submitButton = demoScreen.getByLabelText("submit demo");
+
+  // make a change
+  userEvent.clear(demoNameInput);
+  userEvent.type(demoNameInput, editedDemoResponse.name);
+
   userEvent.click(submitButton);
 
-  const demoCard = await demoScreen.findByLabelText("demo card");
-  expect(demoCard).toHaveTextContent(text);
+  await waitFor(() => {
+    const demoCard = demoScreen.getByLabelText("demo card");
+    expect(demoCard).toHaveTextContent(editedDemoResponse.name);
+  })
+
 });
+
+
+
