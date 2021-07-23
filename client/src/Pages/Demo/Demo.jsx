@@ -24,13 +24,13 @@ const Wrapper = styled.div`
 `;
 
 const Demo = ({ demo }) => {
-  const { addDemo, editDemo } = useActions();
+  const { addDemo, editDemo, deleteDemo } = useActions();
   const [editItem, setEditItem] = useState(null);
 
   const renderCards = () => {
     if (demo.length) {
       return demo.map((demoItem) => {
-        return <Card item={demoItem} key={demoItem._id} onEdit={setEditItem}></Card>
+        return <Card item={demoItem} key={demoItem._id} onEdit={setEditItem} onDelete={deleteDemo}></Card>
       });
     } else {
       return "";

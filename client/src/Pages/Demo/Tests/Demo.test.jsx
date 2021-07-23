@@ -179,5 +179,27 @@ test("edit demo flow", async () => {
 
 });
 
+test("delete demo flow", async () => {
+  const demoScreen = renderWithRouterAndProvider(<App></App>, {
+    initialRouterEntries: ["/backend"],
+    initialState: {
+      auth: {
+        isLogin: true,
+        message: null,
+      },
+      demo: [],
+    },
+  });
+  const deleteDemoButton = await demoScreen.findByLabelText("delete demo");
+  userEvent.click(deleteDemoButton);
+
+  await waitFor(() => {
+    const demoCard = demoScreen.queryAllByLabelText("demo card");
+    demoScreen.debug();
+    expect(demoCard.length).toBe(0);
+  });
+
+});
+
 
 

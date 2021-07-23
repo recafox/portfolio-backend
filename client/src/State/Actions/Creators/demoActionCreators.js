@@ -72,3 +72,23 @@ export const editDemo = (demo) => {
     }
   }
 }
+
+export const deleteDemo = (demoId) => {
+  return async dispatch => {
+    try {
+      const response = await axios.delete(`${urls.demoURL}/${demoId}`);
+      dispatch({
+        type: actionTypes.DELETE_DEMO,
+        payload: response.data
+      })
+    } catch(error) {
+      dispatch({
+        type: actionTypes.SET_ALERT,
+        payload: {
+          isError: true,
+          content: "error connecting to server!",
+        },
+      });
+    }
+  }
+}

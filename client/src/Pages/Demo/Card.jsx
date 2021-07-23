@@ -45,7 +45,7 @@ const CardWrapper = styled.div`
   }
 `;
 
-const Card = ({ item, onEdit }) => {
+const Card = ({ item, onEdit, onDelete }) => {
   return (
     <CardWrapper aria-label="demo card" className="demo-card" id={`demo-${item._id}`}>
       <h4>{item.name}</h4>
@@ -56,7 +56,7 @@ const Card = ({ item, onEdit }) => {
         <StyledButton aria-label="edit demo" onClick={e => onEdit(item)}>
           <i className="fas fa-pen"></i>
         </StyledButton>
-        <StyledButton>
+        <StyledButton aria-label="delete demo" onClick={e => onDelete(item._id)}>
           <i className="fas fa-times"></i>
         </StyledButton>
       </div>

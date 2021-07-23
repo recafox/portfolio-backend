@@ -16,7 +16,8 @@ const demoReducer = (state = null, action) => {
         }
       });
       return newState;
-    return;
+    case actionTypes.DELETE_DEMO:
+      return state.filter(item => item._id !== action.payload._id);
     default:
       return state;
   }

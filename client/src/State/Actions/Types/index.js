@@ -8,7 +8,8 @@ const actionTypes = {
   EDIT_PROFILE: "EDIT_PROFILE",
   GET_DEMO: "GET_DEMO",
   ADD_DEMO: "ADD_DEMO",
-  EDIT_DEMO: "EDIT_DEMO"
+  EDIT_DEMO: "EDIT_DEMO",
+  DELETE_DEMO: "DELETE_DEMO",
 };
 
 export default actionTypes;

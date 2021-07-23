@@ -45,11 +45,14 @@ export const handlers = [
   rest.get(urls.demoURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(demoResponse));
   }),
-
   rest.post(urls.demoURL, (req, res, ctx) => {
     return res(ctx.status(201), ctx.json(createdDemoResponse));
   }),
   rest.put(`${urls.demoURL}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(editedDemoResponse));
+  }),
+  // delete the first one in demo response
+  rest.delete(`${urls.demoURL}/:id`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(demoResponse[0]));
   }),
 ];
