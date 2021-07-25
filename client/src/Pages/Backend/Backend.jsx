@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import useActions from "../../Hooks/useActions";
 import Profile from "../Profile/Profile";
 import Demo from "../Demo/Demo";
+import Exp from "../Exp/Exp";
 
 const SectionHeader = styled.h2`
   font-size: 32px;
@@ -56,12 +57,22 @@ const Backend = () => {
     }
   };
 
+  const renderExp = () => {
+    return (
+      <div>
+        <SectionHeader>工作經歷</SectionHeader>
+        <Exp></Exp>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Nav></Nav>
       <h1>Backend</h1>
       {renderProfile()}
       {renderDemo()}
+      {renderExp()}
     </div>
   );
 };
