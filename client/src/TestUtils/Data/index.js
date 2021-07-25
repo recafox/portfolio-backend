@@ -56,7 +56,7 @@ export const demoResponse = [
   },
 ];
 
-export const createdDemoResponse =   {
+export const createdDemoResponse = {
   _id: "60f43c7fcb66304ed0d88888",
   name: "New react project",
   githubLink: "https://sfsdfsdf.com",
@@ -65,11 +65,43 @@ export const createdDemoResponse =   {
   __v: 0,
 };
 
-export const editedDemoResponse =   {
+export const editedDemoResponse = {
   _id: "60f43c7fcb66304ed0d48083",
   name: "Edited react project",
   githubLink: "https://sfsdfsdf.com",
   demoLink: "httos://wrwerwerrwe.com",
   description: "a simple react project",
+  __v: 0,
+};
+
+export const expListResponse = [
+  {
+    _id: "60fd6f25b384bf400cfb7b49",
+    title: "frontend",
+    company: "could be anywhere",
+    startDate: "2020-06-08T00:00:00.000Z",
+    endDate: "2021-07-05T00:00:00.000Z",
+    description: "do some front end stuff",
+    __v: 0,
+  },
+];
+
+export const editedExpResponse = {
+  _id: "60fd6f25b384bf400cfb7b49",
+  title: "sportcar racer",
+  company: "A place called Slaughter race",
+  startDate: "2020-06-08T00:00:00.000Z",
+  endDate: "2021-07-05T00:00:00.000Z",
+  description: "What can it be that calls me to this place today?",
+  __v: 0,
+};
+
+export const createExpResponse = {
+  _id: "60fd6f25b384bf400cf77777",
+  title: "cat lover",
+  company: "Kitty Paradise",
+  startDate: "2020-06-08T00:00:00.000Z",
+  endDate: "2021-07-05T00:00:00.000Z",
+  description: "Big Kitty, Come to Mommy",
   __v: 0,
 };

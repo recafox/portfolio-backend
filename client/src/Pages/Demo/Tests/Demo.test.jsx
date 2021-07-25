@@ -5,7 +5,11 @@ import urls from "../../../Constants/urls";
 import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
 import { rest } from "msw";
 import { server } from "../../../TestUtils/Mocks/server";
-import { demoResponse, createdDemoResponse, editedDemoResponse } from '../../../TestUtils/Data';
+import {
+  demoResponse,
+  createdDemoResponse,
+  editedDemoResponse,
+} from "../../../TestUtils/Data";
 
 test("render blank demo input card if server returns empty, and no demo card", async () => {
   server.use(
@@ -84,7 +88,6 @@ describe("add demo flow", () => {
     submitButton = demoScreen.getByLabelText("submit demo");
   });
 
-
   test("error-free add demo flow", async () => {
     const { name, githubLink, demoLink, description } = createdDemoResponse;
     userEvent.clear(demoNameInput);
@@ -111,7 +114,7 @@ describe("add demo flow", () => {
     userEvent.clear(demoDescriptionInput);
     // submit
     userEvent.click(submitButton);
-    
+
     const warning = await demoScreen.findByRole("alert");
     expect(warning).toHaveTextContent("Fill in EVERY field before you submit!");
   });
@@ -123,7 +126,7 @@ describe("add demo flow", () => {
       })
     );
     const text = "lorem ipsum is the best";
-  
+
     userEvent.clear(demoNameInput);
     userEvent.type(demoNameInput, text);
     userEvent.clear(gitLinkInput);
@@ -175,8 +178,7 @@ test("edit demo flow", async () => {
   await waitFor(() => {
     const demoCard = demoScreen.getByLabelText("demo card");
     expect(demoCard).toHaveTextContent(editedDemoResponse.name);
-  })
-
+  });
 });
 
 test("delete demo flow", async () => {
@@ -195,11 +197,6 @@ test("delete demo flow", async () => {
 
   await waitFor(() => {
     const demoCard = demoScreen.queryAllByLabelText("demo card");
-    demoScreen.debug();
     expect(demoCard.length).toBe(0);
   });
-
 });
-
-
-

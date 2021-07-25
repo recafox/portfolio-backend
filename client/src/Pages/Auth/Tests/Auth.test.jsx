@@ -21,7 +21,6 @@ test("error-free login / logout flow", async () => {
   // logout flow
   const logoutButton = normalScreen.getByRole("button", { name: /logout/i });
   userEvent.click(logoutButton);
-  normalScreen.debug();
 
   await waitFor(() => {
     expect(

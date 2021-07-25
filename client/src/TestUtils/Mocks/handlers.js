@@ -9,11 +9,13 @@ import {
   profileResponse,
   demoResponse,
   createdDemoResponse,
-  editedDemoResponse
+  editedDemoResponse,
+  expListResponse,
+  createExpResponse,
+  editedExpResponse,
 } from "../Data";
 
 export const handlers = [
-
   // --------- AUTH
   rest.post(urls.loginURL, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(testSuccessLoginResponse));
@@ -54,5 +56,19 @@ export const handlers = [
   // delete the first one in demo response
   rest.delete(`${urls.demoURL}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(demoResponse[0]));
+  }),
+
+  // --------- Exp
+  rest.get(urls.expURL, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(expListResponse));
+  }),
+  rest.post(urls.expURL, (req, rex, ctx) => {
+    return res(ctx.status(201), ctx.json(createExpResponse));
+  }),
+  rest.put(`${urls.expURL}/:id`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(editedExpResponse));
+  }),
+  rest.delete(`${urls.demoResponse}/:id`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(expListResponse[0]));
   }),
 ];
