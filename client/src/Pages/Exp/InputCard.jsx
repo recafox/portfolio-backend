@@ -12,7 +12,10 @@ const InputCard = (props) => {
       <div>
         <label>
           開始日期
-          <input type="date"></input>
+          <input
+            type="date"
+            onChange={(e) => console.log(e.target.value)}
+          ></input>
         </label>
         <label>
           結束日期
