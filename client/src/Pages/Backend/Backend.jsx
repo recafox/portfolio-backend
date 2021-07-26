@@ -20,11 +20,13 @@ const Backend = () => {
   const auth = useSelector((state) => state.auth);
   const profile = useSelector((state) => state.profile);
   const demo = useSelector((state) => state.demo);
-  const { getProfile, getDemo } = useActions();
+  const exp = useSelector((state) => state.exp);
+  const { getProfile, getDemo, getExp } = useActions();
 
   useEffect(() => {
     getProfile();
     getDemo();
+    getExp();
   }, []);
 
   if (!auth.isLogin) {
@@ -58,12 +60,15 @@ const Backend = () => {
   };
 
   const renderExp = () => {
-    return (
-      <div>
-        <SectionHeader>工作經歷</SectionHeader>
-        <Exp></Exp>
-      </div>
-    );
+    if (exp) {
+      return (
+        <div>
+          <SectionHeader>工作經歷</SectionHeader>
+          <Exp exp={exp}></Exp>
+        </div>
+      );
+    }
+    return <div>Loading</div>;
   };
 
   return (
