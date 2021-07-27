@@ -59,7 +59,7 @@ test("renders correct number of exp card based on server response", async () => 
   expect(expCard[0]).toHaveTextContent(expListResponse[0].title);
 });
 
-describe("add exp flow", async () => {
+describe("add exp flow", () => {
   let expScreen,
     expTitleInput,
     expCompanyInput,
@@ -67,10 +67,16 @@ describe("add exp flow", async () => {
     expEndDateInput,
     expDescriptionInput,
     submitButton;
-  beforeEach(async () => {
+  beforeEach(() => {
     server.use(
       rest.get(urls.expURL, (req, res, ctx) => {
         return res.once(ctx.status(200), ctx.json([]));
+      })
+    );
+
+    server.use(
+      rest.post(urls.expURL, (req, res, ctx) => {
+        return res.once(ctx.status(201), ctx.json(createExpResponse));
       })
     );
     expScreen = renderWithRouterAndProvider(<App></App>, {
@@ -80,18 +86,20 @@ describe("add exp flow", async () => {
           isLogin: true,
           message: null,
         },
-        exp: null,
+        profile: [],
+        demo: [],
+        exp: [],
       },
     });
 
-    expTitleInput = await expScreen.findByRole("textbox", { name: "職位" });
-    expCompanyInput = await expScreen.findByRole("textbox", {
+    expTitleInput = expScreen.getByRole("textbox", { name: "職位" });
+    expCompanyInput = expScreen.getByRole("textbox", {
       name: "公司",
     });
-    expStartDateInput = await expScreen.findByLabelText("開始日期");
-    expEndDateInput = await expScreen.findByLabelText("結束日期");
-    expDescriptionInput = await expScreen.findByPlaceholderText("工作內容說明");
-    submitButton = await expScreen.findByLabelText("submit new exp");
+    expStartDateInput = expScreen.getByLabelText("開始日期");
+    expEndDateInput = expScreen.getByLabelText("結束日期");
+    expDescriptionInput = expScreen.getByPlaceholderText("工作內容說明");
+    submitButton = expScreen.getByLabelText("submit new exp");
   });
 
   test("error-free flow", async () => {
@@ -110,9 +118,8 @@ describe("add exp flow", async () => {
     userEvent.click(submitButton);
 
     await waitFor(() => {
-      const expCard = getAllByLabelText("exp card");
-      expect(expCard.length).toBe(1);
-      expect(expCard[0]).toHaveTextContent(createdDemoResponse.title);
+      const expCard = expScreen.getByLabelText("exp card");
+      expect(expCard).toHaveTextContent(createExpResponse.title);
     });
   });
 });

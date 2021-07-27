@@ -11,6 +11,7 @@ const actionTypes = {
   EDIT_DEMO: "EDIT_DEMO",
   DELETE_DEMO: "DELETE_DEMO",
   GET_EXP: "GET_EXP",
+  ADD_EXP: "ADD_EXP",
 };
 
 export default actionTypes;

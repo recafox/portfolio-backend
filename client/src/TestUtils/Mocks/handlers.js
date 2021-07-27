@@ -63,7 +63,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(expListResponse));
   }),
   rest.post(urls.expURL, (req, rex, ctx) => {
-    return res(ctx.status(201), ctx.json(createExpResponse));
+    return res(ctx.status(200), ctx.json(createExpResponse));
   }),
   rest.put(`${urls.expURL}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(editedExpResponse));
