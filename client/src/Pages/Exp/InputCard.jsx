@@ -72,7 +72,7 @@ const InputCard = ({ onSubmit }) => {
           onChange={(e) => setCompany(e.target.value)}
         ></StyledInput>
       </label>
-      <div class="date-set">
+      <div className="date-set">
         <label>
           開始日期
           <StyledInput

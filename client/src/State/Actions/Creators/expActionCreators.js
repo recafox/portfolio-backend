@@ -1,6 +1,7 @@
 import axios from "axios";
 import actionTypes from "../Types";
 import urls from "../../../Constants/urls";
+import { getEmptyValue } from "../../../Helpers";
 
 export const getExp = () => {
   return async (dispatch) => {
@@ -12,7 +13,27 @@ export const getExp = () => {
 
 export const addExp = (exp) => {
   return async (dispatch) => {
-    const response = await axios.post(urls.expURL, exp);
-    dispatch({ type: actionTypes.ADD_EXP, payload: response.data });
+    if (getEmptyValue(exp) > 0) {
+      dispatch({
+        type: actionTypes.SET_ALERT,
+        payload: {
+          isError: true,
+          content: "Fill in EVERY field before you submit!",
+        },
+      });
+    } else {
+      try {
+        const response = await axios.post(urls.expURL, exp);
+        dispatch({ type: actionTypes.ADD_EXP, payload: response.data });
+      } catch (error) {
+        dispatch({
+          type: actionTypes.SET_ALERT,
+          payload: {
+            isError: true,
+            content: "error connecting to server!",
+          },
+        });
+      }
+    }
   };
 };

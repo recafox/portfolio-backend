@@ -102,6 +102,10 @@ describe("add exp flow", () => {
     submitButton = expScreen.getByLabelText("submit new exp");
   });
 
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
   test("error-free flow", async () => {
     userEvent.clear(expTitleInput);
     userEvent.type(expTitleInput, createExpResponse.title);
@@ -121,5 +125,47 @@ describe("add exp flow", () => {
       const expCard = expScreen.getByLabelText("exp card");
       expect(expCard).toHaveTextContent(createExpResponse.title);
     });
+  });
+
+  test("show error message if user does not complete all fields", async () => {
+    userEvent.clear(expTitleInput);
+    userEvent.clear(expCompanyInput);
+    userEvent.clear(expStartDateInput);
+    userEvent.clear(expEndDateInput);
+    userEvent.clear(expDescriptionInput);
+    userEvent.type(expDescriptionInput, createExpResponse.description);
+
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      const warning = expScreen.getByRole("alert");
+      expect(warning).toHaveTextContent(
+        "Fill in EVERY field before you submit!"
+      );
+    });
+  });
+
+  test("show error message if error occurs when connecting to server", async () => {
+    server.use(
+      rest.post(urls.expURL, (req, res, ctx) => {
+        return res.once(ctx.status(500));
+      })
+    );
+    userEvent.clear(expTitleInput);
+    userEvent.type(expTitleInput, createExpResponse.title);
+    userEvent.clear(expCompanyInput);
+    userEvent.type(expCompanyInput, createExpResponse.company);
+    userEvent.clear(expStartDateInput);
+    userEvent.type(expStartDateInput, "2020-06-08");
+    userEvent.clear(expEndDateInput);
+    userEvent.type(expEndDateInput, "2021-07-05");
+    userEvent.clear(expDescriptionInput);
+    userEvent.type(expDescriptionInput, createExpResponse.description);
+
+    userEvent.click(submitButton);
+
+    const warning = await expScreen.findByRole("alert");
+    expScreen.debug();
+    expect(warning).toHaveTextContent("error connecting to server!");
   });
 });
