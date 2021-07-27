@@ -1,12 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 import InputCard from "./InputCard";
 import Card from "./Card";
 import useActions from "../../Hooks/useActions";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  margin-top: 50px;
-
   .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -30,7 +28,14 @@ const Demo = ({ demo }) => {
   const renderCards = () => {
     if (demo.length) {
       return demo.map((demoItem) => {
-        return <Card item={demoItem} key={demoItem._id} onEdit={setEditItem} onDelete={deleteDemo}></Card>
+        return (
+          <Card
+            item={demoItem}
+            key={demoItem._id}
+            onEdit={setEditItem}
+            onDelete={deleteDemo}
+          ></Card>
+        );
       });
     } else {
       return "";
@@ -39,7 +44,11 @@ const Demo = ({ demo }) => {
 
   return (
     <Wrapper>
-      <InputCard onSubmit={editItem ? editDemo : addDemo} isEditing={editItem ? true : false} item={editItem}></InputCard>
+      <InputCard
+        onSubmit={editItem ? editDemo : addDemo}
+        isEditing={editItem ? true : false}
+        item={editItem}
+      ></InputCard>
       <div className="card-container">{renderCards()}</div>
     </Wrapper>
   );

@@ -14,6 +14,7 @@ const SectionHeader = styled.h2`
   text-align: center;
   font-family: "Microsoft JhengHei", sans-serif;
   margin-top: 70px;
+  margin-bottom: 50px;
 `;
 
 const Backend = () => {

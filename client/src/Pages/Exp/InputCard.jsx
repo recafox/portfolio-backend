@@ -1,4 +1,42 @@
 import { useState } from "react";
+import styled from "styled-components";
+import StyledInput from "../Common/StyledInput";
+import StyledTextarea from "../Common/StyledTextarea";
+import StyledButton from "../Common/StyledButton";
+
+const CardWrapper = styled.div`
+  border: 2px solid ${(props) => props.theme.secondaryColor};
+  padding: 15px;
+  position: relative;
+
+  label {
+    margin-bottom: 20px;
+    display: block;
+
+    input {
+      margin-left: 20px;
+    }
+  }
+
+  .date-set {
+    display: flex;
+    input:first-of-type {
+      margin-right: 20px;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+  }
+
+  button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+`;
 
 const InputCard = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
@@ -17,50 +55,50 @@ const InputCard = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <CardWrapper>
       <label>
         職位
-        <input
+        <StyledInput
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-        ></input>
+        ></StyledInput>
       </label>
       <label>
         公司
-        <input
+        <StyledInput
           type="text"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
-        ></input>
+        ></StyledInput>
       </label>
-      <div>
+      <div class="date-set">
         <label>
           開始日期
-          <input
+          <StyledInput
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-          ></input>
+          ></StyledInput>
         </label>
         <label>
           結束日期
-          <input
+          <StyledInput
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-          ></input>
+          ></StyledInput>
         </label>
       </div>
-      <textarea
+      <StyledTextarea
         placeholder="工作內容說明"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
-      <button aria-label="submit new exp" onClick={handleSubmit}>
+      ></StyledTextarea>
+      <StyledButton aria-label="submit new exp" onClick={handleSubmit}>
         <i className="fas fa-plus"></i>
-      </button>
-    </div>
+      </StyledButton>
+    </CardWrapper>
   );
 };
 
