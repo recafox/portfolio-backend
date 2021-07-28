@@ -165,7 +165,66 @@ describe("add exp flow", () => {
     userEvent.click(submitButton);
 
     const warning = await expScreen.findByRole("alert");
-    expScreen.debug();
+    expect(warning).toHaveTextContent("error connecting to server!");
+  });
+});
+
+describe("delete exp flow", () => {
+  let expScreen,
+    expTitleInput,
+    expCompanyInput,
+    expStartDateInput,
+    expEndDateInput,
+    expDescriptionInput,
+    submitButton;
+  beforeEach(() => {
+    expScreen = renderWithRouterAndProvider(<App></App>, {
+      initialRouterEntries: ["/backend"],
+      initialState: {
+        auth: {
+          isLogin: true,
+          message: null,
+        },
+        profile: [],
+        demo: [],
+        exp: [],
+      },
+    });
+
+    expTitleInput = expScreen.getByRole("textbox", { name: "職位" });
+    expCompanyInput = expScreen.getByRole("textbox", {
+      name: "公司",
+    });
+    expStartDateInput = expScreen.getByLabelText("開始日期");
+    expEndDateInput = expScreen.getByLabelText("結束日期");
+    expDescriptionInput = expScreen.getByPlaceholderText("工作內容說明");
+    submitButton = expScreen.getByLabelText("submit new exp");
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  test("error-free flow", async () => {
+    const deleteExpButton = await expScreen.findByLabelText("delete exp");
+    userEvent.click(deleteExpButton);
+
+    await waitFor(() => {
+      const existingExpCard = expScreen.queryAllByLabelText("exp card");
+      expect(existingExpCard.length).toBe(0);
+    });
+  });
+
+  test("error connecting to server flow", async () => {
+    server.use(
+      rest.delete(`${urls.expURL}/:id`, (req, res, ctx) => {
+        return res.once(ctx.status(500));
+      })
+    );
+    const deleteExpButton = await expScreen.findByLabelText("delete exp");
+    userEvent.click(deleteExpButton);
+
+    const warning = await expScreen.findByRole("alert");
     expect(warning).toHaveTextContent("error connecting to server!");
   });
 });

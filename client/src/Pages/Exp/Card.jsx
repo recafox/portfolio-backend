@@ -54,7 +54,7 @@ const CardWrapper = styled.div`
   }
 `;
 
-const Card = ({ exp }) => {
+const Card = ({ exp, onDelete }) => {
   const formatTime = (timeString) => {
     // input: 2020-06-08T00:00:00.000Z
     // output: 2020-06-08
@@ -83,8 +83,8 @@ const Card = ({ exp }) => {
           <i className="fas fa-pen"></i>
         </StyledButton>
         <StyledButton
-          aria-label="delete demo"
-          onClick={(e) => onDelete(item._id)}
+          aria-label="delete exp"
+          onClick={(e) => onDelete(exp._id)}
         >
           <i className="fas fa-times"></i>
         </StyledButton>

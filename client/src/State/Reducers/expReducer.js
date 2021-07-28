@@ -6,6 +6,8 @@ const expReducer = (state = null, action) => {
       return action.payload;
     case actionTypes.ADD_EXP:
       return [...state, action.payload];
+    case actionTypes.DELETE_EXP:
+      return state.filter((item) => item._id !== action.payload._id);
     default:
       return state;
   }

@@ -37,3 +37,24 @@ export const addExp = (exp) => {
     }
   };
 };
+
+export const deleteExp = (expID) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(`${urls.expURL}/${expID}`);
+      dispatch({
+        type: actionTypes.DELETE_EXP,
+        payload: response.data,
+      });
+    } catch (error) {
+      // error handling
+      dispatch({
+        type: actionTypes.SET_ALERT,
+        payload: {
+          isError: true,
+          content: "error connecting to server!",
+        },
+      });
+    }
+  };
+};

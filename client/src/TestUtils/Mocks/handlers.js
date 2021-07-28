@@ -68,7 +68,7 @@ export const handlers = [
   rest.put(`${urls.expURL}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(editedExpResponse));
   }),
-  rest.delete(`${urls.demoResponse}/:id`, (req, res, ctx) => {
+  rest.delete(`${urls.expURL}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(expListResponse[0]));
   }),
 ];

@@ -3,10 +3,12 @@ import InputCard from "./InputCard";
 import Card from "./Card";
 
 const Exp = ({ exp }) => {
-  const { addExp } = useActions();
+  const { addExp, deleteExp } = useActions();
 
   const renderCards = () => {
-    return exp.map((item) => <Card key={item._id} exp={item}></Card>);
+    return exp.map((item) => (
+      <Card key={item._id} exp={item} onDelete={deleteExp}></Card>
+    ));
   };
 
   return (
