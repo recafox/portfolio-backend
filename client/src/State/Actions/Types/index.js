@@ -13,6 +13,7 @@ const actionTypes = {
   GET_EXP: "GET_EXP",
   ADD_EXP: "ADD_EXP",
   DELETE_EXP: "DELETE_EXP",
+  EDIT_EXP: "EDIT_EXP",
 };
 
 export default actionTypes;

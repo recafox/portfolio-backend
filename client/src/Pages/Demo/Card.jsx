@@ -2,10 +2,10 @@ import styled from "styled-components";
 import StyledButton from "../Common/StyledButton";
 
 const CardWrapper = styled.div`
-  border: 2px solid ${props => props.theme.secondaryColor};
-  background-color: ${props => props.theme.secondaryColor};
+  border: 2px solid ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.secondaryColor};
   color: #fff;
-  font-family: "Roboto", 'Microsoft JhengHei', sans-serif;
+  font-family: "Roboto", "Microsoft JhengHei", sans-serif;
   height: 300px;
   margin: 20px 0;
   padding: 15px;
@@ -22,7 +22,8 @@ const CardWrapper = styled.div`
     }
   }
 
-  h4, p {
+  h4,
+  p {
     height: calc(75px / 3);
     line-height: 22px;
 
@@ -30,7 +31,6 @@ const CardWrapper = styled.div`
       margin-right: 10px;
     }
   }
-
 
   h4 {
     font-size: 22px;
@@ -47,16 +47,29 @@ const CardWrapper = styled.div`
 
 const Card = ({ item, onEdit, onDelete }) => {
   return (
-    <CardWrapper aria-label="demo card" className="demo-card" id={`demo-${item._id}`}>
+    <CardWrapper
+      aria-label="demo card"
+      className="demo-card"
+      id={`demo-${item._id}`}
+    >
       <h4>{item.name}</h4>
-      <p><i className="fab fa-github"></i><a href={item.githubLink}>{item.githubLink}</a></p>
-      <p><i className="fas fa-link"></i> <a href={item.demoLink}>{item.demoLink}</a></p>
+      <p>
+        <i className="fab fa-github"></i>
+        <a href={item.githubLink}>{item.githubLink}</a>
+      </p>
+      <p>
+        <i className="fas fa-link"></i>{" "}
+        <a href={item.demoLink}>{item.demoLink}</a>
+      </p>
       <div className="content">{item.description}</div>
       <div className="button-set">
-        <StyledButton aria-label="edit demo" onClick={e => onEdit(item)}>
+        <StyledButton aria-label="edit demo" onClick={(e) => onEdit(item)}>
           <i className="fas fa-pen"></i>
         </StyledButton>
-        <StyledButton aria-label="delete demo" onClick={e => onDelete(item._id)}>
+        <StyledButton
+          aria-label="delete demo"
+          onClick={(e) => onDelete(item._id)}
+        >
           <i className="fas fa-times"></i>
         </StyledButton>
       </div>

@@ -8,6 +8,14 @@ const expReducer = (state = null, action) => {
       return [...state, action.payload];
     case actionTypes.DELETE_EXP:
       return state.filter((item) => item._id !== action.payload._id);
+    case actionTypes.EDIT_EXP:
+      return state.map((item) => {
+        if (item._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return item;
+        }
+      });
     default:
       return state;
   }

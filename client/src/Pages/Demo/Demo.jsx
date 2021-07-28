@@ -25,6 +25,10 @@ const Demo = ({ demo }) => {
   const { addDemo, editDemo, deleteDemo } = useActions();
   const [editItem, setEditItem] = useState(null);
 
+  const handleEdit = (demo) => {
+    editDemo(demo);
+    setEditItem(null);
+  };
   const renderCards = () => {
     if (demo.length) {
       return demo.map((demoItem) => {
@@ -45,7 +49,7 @@ const Demo = ({ demo }) => {
   return (
     <Wrapper>
       <InputCard
-        onSubmit={editItem ? editDemo : addDemo}
+        onSubmit={editItem ? handleEdit : addDemo}
         isEditing={editItem ? true : false}
         item={editItem}
       ></InputCard>

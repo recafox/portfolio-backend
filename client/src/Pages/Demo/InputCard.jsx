@@ -5,7 +5,7 @@ import StyledButton from "../Common/StyledButton";
 import { useState, useEffect } from "react";
 
 const Card = styled.div`
-  border: 2px solid ${props => props.theme.secondaryColor};
+  border: 2px solid ${(props) => props.theme.secondaryColor};
   position: relative;
   padding: 15px;
 
@@ -49,14 +49,19 @@ const InputCard = ({ onSubmit, item, isEditing }) => {
       setDemoLink(item.demoLink);
       setDescription(item.description);
     }
-    
   }, [item]);
 
+  const renderIcon = () => {
+    if (isEditing) {
+      return <i className="fas fa-pen"></i>;
+    }
+    return <i className="fas fa-plus"></i>;
+  };
 
   const handleSubmit = function () {
     const submitObject = { name, githubLink, demoLink, description };
     if (isEditing) {
-      onSubmit({ id: item._id, ...submitObject })
+      onSubmit({ id: item._id, ...submitObject });
     } else {
       onSubmit({ name, githubLink, demoLink, description });
     }
@@ -98,7 +103,7 @@ const InputCard = ({ onSubmit, item, isEditing }) => {
         onChange={(e) => setDescription(e.target.value)}
       ></StyledTextarea>
       <StyledButton aria-label="submit demo" onClick={handleSubmit}>
-        <i className="fas fa-plus"></i>
+        {renderIcon()}
       </StyledButton>
     </Card>
   );

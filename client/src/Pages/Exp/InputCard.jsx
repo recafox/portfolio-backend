@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { formatTime } from "../../Helpers";
 import styled from "styled-components";
 import StyledInput from "../Common/StyledInput";
 import StyledTextarea from "../Common/StyledTextarea";
@@ -38,20 +39,42 @@ const CardWrapper = styled.div`
   }
 `;
 
-const InputCard = ({ onSubmit }) => {
+const InputCard = ({ onSubmit, editItem }) => {
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    if (editItem) {
+      setTitle(editItem.title);
+      setCompany(editItem.company);
+      setStartDate(formatTime(editItem.startDate));
+      setEndDate(formatTime(editItem.endDate));
+      setDescription(editItem.description);
+    }
+  }, [editItem]);
+
   const handleSubmit = function () {
-    onSubmit({ title, company, startDate, endDate, description });
+    let submitItem = { title, company, startDate, endDate, description };
+    if (editItem) {
+      onSubmit({ ...submitItem, id: editItem.id });
+    } else {
+      onSubmit(submitItem);
+    }
     setTitle("");
     setCompany("");
     setStartDate("");
     setEndDate("");
     setDescription("");
+  };
+
+  const renderIcon = function () {
+    if (editItem) {
+      return <i className="fas fa-pen"></i>;
+    }
+    return <i className="fas fa-plus"></i>;
   };
 
   return (
@@ -96,7 +119,7 @@ const InputCard = ({ onSubmit }) => {
         onChange={(e) => setDescription(e.target.value)}
       ></StyledTextarea>
       <StyledButton aria-label="submit new exp" onClick={handleSubmit}>
-        <i className="fas fa-plus"></i>
+        {renderIcon()}
       </StyledButton>
     </CardWrapper>
   );

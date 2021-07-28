@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import StyledButton from "../Common/StyledButton";
-
+import { formatTime } from "../../Helpers";
 const CardWrapper = styled.div`
   border: 2px solid ${(props) => props.theme.secondaryColor};
   background-color: ${(props) => props.theme.secondaryColor};
@@ -54,13 +54,7 @@ const CardWrapper = styled.div`
   }
 `;
 
-const Card = ({ exp, onDelete }) => {
-  const formatTime = (timeString) => {
-    // input: 2020-06-08T00:00:00.000Z
-    // output: 2020-06-08
-    return timeString.split("T")[0];
-  };
-
+const Card = ({ exp, onDelete, onEdit }) => {
   return (
     <CardWrapper aria-label="exp card">
       <div className="card__info">
@@ -79,7 +73,19 @@ const Card = ({ exp, onDelete }) => {
       </div>
       <p className="content">{exp.description}</p>
       <div className="button-set">
-        <StyledButton aria-label="edit demo" onClick={(e) => onEdit(item)}>
+        <StyledButton
+          aria-label="edit exp"
+          onClick={(e) =>
+            onEdit({
+              id: exp._id,
+              title: exp.title,
+              company: exp.company,
+              startDate: exp.startDate,
+              endDate: exp.endDate,
+              description: exp.description,
+            })
+          }
+        >
           <i className="fas fa-pen"></i>
         </StyledButton>
         <StyledButton

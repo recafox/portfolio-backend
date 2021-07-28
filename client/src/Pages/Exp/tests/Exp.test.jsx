@@ -1,5 +1,5 @@
 import userEvent from "@testing-library/user-event";
-import { getByLabelText, waitFor } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 
 import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
 import { rest } from "msw";
@@ -9,7 +9,7 @@ import urls from "../../../Constants/urls";
 import {
   expListResponse,
   createExpResponse,
-  createdDemoResponse,
+  editedExpResponse,
 } from "../../../TestUtils/Data";
 test("render empty input card and no exp card when server returns nothing", async () => {
   server.use(
@@ -170,13 +170,7 @@ describe("add exp flow", () => {
 });
 
 describe("delete exp flow", () => {
-  let expScreen,
-    expTitleInput,
-    expCompanyInput,
-    expStartDateInput,
-    expEndDateInput,
-    expDescriptionInput,
-    submitButton;
+  let expScreen;
   beforeEach(() => {
     expScreen = renderWithRouterAndProvider(<App></App>, {
       initialRouterEntries: ["/backend"],
@@ -190,15 +184,6 @@ describe("delete exp flow", () => {
         exp: [],
       },
     });
-
-    expTitleInput = expScreen.getByRole("textbox", { name: "職位" });
-    expCompanyInput = expScreen.getByRole("textbox", {
-      name: "公司",
-    });
-    expStartDateInput = expScreen.getByLabelText("開始日期");
-    expEndDateInput = expScreen.getByLabelText("結束日期");
-    expDescriptionInput = expScreen.getByPlaceholderText("工作內容說明");
-    submitButton = expScreen.getByLabelText("submit new exp");
   });
 
   afterEach(() => {
@@ -226,5 +211,49 @@ describe("delete exp flow", () => {
 
     const warning = await expScreen.findByRole("alert");
     expect(warning).toHaveTextContent("error connecting to server!");
+  });
+});
+
+describe("edit exp flow", () => {
+  let expScreen, expTitleInput, submitButton;
+  beforeEach(() => {
+    expScreen = renderWithRouterAndProvider(<App></App>, {
+      initialRouterEntries: ["/backend"],
+      initialState: {
+        auth: {
+          isLogin: true,
+          message: null,
+        },
+        profile: [],
+        demo: [],
+        exp: [],
+      },
+    });
+
+    expTitleInput = expScreen.getByRole("textbox", { name: "職位" });
+    submitButton = expScreen.getByLabelText("submit new exp");
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  test("error-free flow", async () => {
+    const originExpCard = await expScreen.findByLabelText("exp card");
+    expect(originExpCard).toHaveTextContent(expListResponse[0].title);
+    const editButton = expScreen.getByLabelText("edit exp");
+    userEvent.click(editButton);
+
+    // type in new title
+    userEvent.clear(expTitleInput);
+    userEvent.type(expTitleInput, editedExpResponse.title);
+
+    // submit
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      const editedExpCard = expScreen.getByLabelText("exp card");
+      expect(editedExpCard).toHaveTextContent(editedExpResponse.title);
+    });
   });
 });

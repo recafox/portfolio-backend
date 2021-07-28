@@ -58,3 +58,38 @@ export const deleteExp = (expID) => {
     }
   };
 };
+
+export const editExp = (editedExp) => {
+  return async (dispatch) => {
+    if (getEmptyValue(editedExp) > 0) {
+      dispatch({
+        type: actionTypes.SET_ALERT,
+        payload: {
+          isError: true,
+          content: "Fill in EVERY field before you submit!",
+        },
+      });
+    } else {
+      try {
+        const response = await axios.put(
+          `${urls.expURL}/${editedExp.id}`,
+          editedExp
+        );
+        dispatch({ type: actionTypes.EDIT_EXP, payload: response.data });
+        dispatch({
+          type: actionTypes.SET_ALERT,
+          payload: { isError: false, content: "success!" },
+        });
+      } catch (error) {
+        // error
+        dispatch({
+          type: actionTypes.SET_ALERT,
+          payload: {
+            isError: true,
+            content: "error connecting to server!",
+          },
+        });
+      }
+    }
+  };
+};

@@ -88,7 +88,7 @@ export const expListResponse = [
 
 export const editedExpResponse = {
   _id: "60fd6f25b384bf400cfb7b49",
-  title: "sportcar racer",
+  title: "A Great Procrastinator",
   company: "A place called Slaughter race",
   startDate: "2020-06-08T00:00:00.000Z",
   endDate: "2021-07-05T00:00:00.000Z",
