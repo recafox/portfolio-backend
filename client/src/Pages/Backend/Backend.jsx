@@ -75,7 +75,6 @@ const Backend = () => {
   return (
     <div>
       <Nav></Nav>
-      <h1>Backend</h1>
       {renderProfile()}
       {renderDemo()}
       {renderExp()}
