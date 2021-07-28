@@ -40,10 +40,6 @@ app.use((error, req, res, next) => {
   res.status(500).json({ message: error.message });
 });
 
-app.get("/", (req, res) => {
-  res.send("hello!!");
-});
-
 if (process.env.NODE_ENV === "production") {
   // IF: No designated route handler for the request, request goes here
   // Express serve up production assets, like main.js or main.css
