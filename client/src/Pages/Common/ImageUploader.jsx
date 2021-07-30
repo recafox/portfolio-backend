@@ -78,6 +78,8 @@ const ImageUploader = forwardRef(({ testId, onUploaded }, ref) => {
       setError(false);
     } catch (e) {
       setError(true);
+      setSelected(false);
+      setUploaded({ status: false, imgId: "" });
     }
   };
 

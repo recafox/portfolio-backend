@@ -8,31 +8,6 @@ import useActions from "../../Hooks/useActions";
 import ListItem from "./ListItem";
 import StyledInput from "../Common/StyledInput";
 import StyledTextarea from "../Common/StyledTextarea";
-/**
- * 
-const profileResponse = {
-  _id: "60c6190ab53322bb583b7205",
-  description: "rita is here!",
-  nickname: "Rita",
-  skills: [
-    {
-      _id: "60c6190b2213a24e78b02141",
-      name: "React",
-      description: "Intermediate",
-      imgPath: "60c6190b2213a24e78b02141", // image id in mongo
-    },
-  ],
-  socialLinks: [
-    {
-      _id: "60c6190b2213a24e78b02140",
-      name: "facebook",
-      description: "my facebook page",
-      imgPath: "60c6190b2213a24e78b02141", // image id in mongo
-      link: "https://facebook.com",
-    },
-  ],
-};
- */
 
 const Wrapper = styled.div`
   margin-top: 30px;
@@ -90,11 +65,14 @@ const Profile = ({ profile }) => {
 
   const deleteItem = async (item, type) => {
     let newList;
-    // delete img in db
-    await axios({
-      method: "DELETE",
-      url: `${urls.imageURL}/${item.imgPath}`,
-    });
+    // if has img, delete img
+    if (item.imgPath) {
+      // delete img in db
+      await axios({
+        method: "DELETE",
+        url: `${urls.imageURL}/${item.imgPath}`,
+      });
+    }
     if (type === "social link") {
       newList = socialLinks.filter((link) => link.name !== item.name);
       setSocialLinks(newList);

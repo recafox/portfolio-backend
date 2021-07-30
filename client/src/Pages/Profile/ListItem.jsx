@@ -5,10 +5,15 @@ const Wrapper = styled.div`
   display: flex;
   margin: 10px 0;
   justify-content: space-between;
-  img {
+  img,
+  .blank-img {
     height: 50px;
     width: 50px;
     border-radius: 50%;
+  }
+
+  .blank-img {
+    background-color: ${(props) => props.theme.secondaryColor};
   }
 
   p {
@@ -26,9 +31,15 @@ const Wrapper = styled.div`
 `;
 
 const ListItem = ({ item, type, className, onDelete }) => {
+  const renderImage = () => {
+    if (item.imgPath) {
+      return <img src={getUploadedImageURL(item.imgPath)}></img>;
+    }
+    return <div className="blank-img"></div>;
+  };
   return (
     <Wrapper aria-label={`${type} item`} className={className} type={type}>
-      <img src={getUploadedImageURL(item.imgPath)}></img>
+      {renderImage()}
       <p>{item.name}</p>
       {item.link ? <p>{item.link}</p> : ""}
       <p>{item.description}</p>
