@@ -36,11 +36,29 @@ const Card = styled.div`
   }
 `;
 
+const Tag = styled.div`
+  display: inline-flex;
+  border: 1px solid black;
+  padding: 3px 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  i {
+    margin-left: 10px;
+    &:hover {
+      color: ${(props) => props.theme.secondaryColor};
+      cursor: pointer;
+    }
+  }
+`;
+
 const InputCard = ({ onSubmit, item, isEditing }) => {
   const [name, setName] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [demoLink, setDemoLink] = useState("");
   const [description, setDescription] = useState("");
+  const [tags, setTags] = useState([]);
+  const [currentTag, setCurrentTag] = useState("");
 
   useEffect(() => {
     if (item) {
@@ -48,8 +66,32 @@ const InputCard = ({ onSubmit, item, isEditing }) => {
       setGithubLink(item.githubLink);
       setDemoLink(item.demoLink);
       setDescription(item.description);
+      setTags(item.tags);
     }
   }, [item]);
+
+  const addTag = (tagName) => {
+    setTags([...tags, tagName]);
+    setCurrentTag("");
+  };
+
+  const deleteTag = (tagName) => {
+    let updatedTags = tags.filter((tag) => tag !== tagName);
+    setTags(updatedTags);
+  };
+
+  const renderTags = () => {
+    return tags.map((tag) => (
+      <Tag key={tag} aria-label="demo tag">
+        {tag}
+        <i
+          className="fas fa-times"
+          aria-label="delete a tag"
+          onClick={(e) => deleteTag(tag)}
+        ></i>
+      </Tag>
+    ));
+  };
 
   const renderIcon = () => {
     if (isEditing) {
@@ -59,11 +101,11 @@ const InputCard = ({ onSubmit, item, isEditing }) => {
   };
 
   const handleSubmit = function () {
-    const submitObject = { name, githubLink, demoLink, description };
+    const submitObject = { name, githubLink, demoLink, description, tags };
     if (isEditing) {
       onSubmit({ id: item._id, ...submitObject });
     } else {
-      onSubmit({ name, githubLink, demoLink, description });
+      onSubmit(submitObject);
     }
     setName("");
     setGithubLink("");
@@ -97,6 +139,16 @@ const InputCard = ({ onSubmit, item, isEditing }) => {
           onChange={(e) => setDemoLink(e.target.value)}
         ></StyledInput>
       </label>
+      <label>
+        技術標籤
+        <StyledInput
+          type="text"
+          value={currentTag}
+          onChange={(e) => setCurrentTag(e.target.value)}
+          onKeyDown={(e) => (e.code === "Enter" ? addTag(currentTag) : "")}
+        ></StyledInput>
+      </label>
+      {renderTags()}
       <StyledTextarea
         placeholder="demo說明"
         value={description}

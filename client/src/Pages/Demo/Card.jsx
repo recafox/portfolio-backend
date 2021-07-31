@@ -45,7 +45,23 @@ const CardWrapper = styled.div`
   }
 `;
 
+const Tag = styled.div`
+  display: inline-flex;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 3px 10px;
+  background-color: ${(props) => props.theme.tertiaryColor};
+  color: #fff;
+`;
+
 const Card = ({ item, onEdit, onDelete }) => {
+  const renderTags = () => {
+    return item.tags.map((tag) => (
+      <Tag key={tag} aria-label="demo tag">
+        {tag}
+      </Tag>
+    ));
+  };
   return (
     <CardWrapper
       aria-label="demo card"
@@ -61,6 +77,7 @@ const Card = ({ item, onEdit, onDelete }) => {
         <i className="fas fa-link"></i>{" "}
         <a href={item.demoLink}>{item.demoLink}</a>
       </p>
+      <div>{renderTags()}</div>
       <div className="content">{item.description}</div>
       <div className="button-set">
         <StyledButton aria-label="edit demo" onClick={(e) => onEdit(item)}>

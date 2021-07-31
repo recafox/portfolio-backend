@@ -27,7 +27,7 @@ export const addDemo = (demo) => {
         dispatch({
           type: actionTypes.ADD_DEMO,
           // server return edited demo
-          payload: response.data
+          payload: response.data,
         });
       }
     } catch (error) {
@@ -70,18 +70,18 @@ export const editDemo = (demo) => {
         },
       });
     }
-  }
-}
+  };
+};
 
 export const deleteDemo = (demoId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const response = await axios.delete(`${urls.demoURL}/${demoId}`);
       dispatch({
         type: actionTypes.DELETE_DEMO,
-        payload: response.data
-      })
-    } catch(error) {
+        payload: response.data,
+      });
+    } catch (error) {
       dispatch({
         type: actionTypes.SET_ALERT,
         payload: {
@@ -90,5 +90,5 @@ export const deleteDemo = (demoId) => {
         },
       });
     }
-  }
-}
+  };
+};

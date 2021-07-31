@@ -1,5 +1,5 @@
 import userEvent from "@testing-library/user-event";
-import { waitFor } from "@testing-library/react";
+import { waitFor, fireEvent } from "@testing-library/react";
 import App from "../../App/App";
 import urls from "../../../Constants/urls";
 import { renderWithRouterAndProvider } from "../../../TestUtils/renderWith";
@@ -55,6 +55,7 @@ describe("add demo flow", () => {
   let gitLinkInput;
   let demoLinkInput;
   let demoDescriptionInput;
+  let demoTagInput;
   let submitButton;
 
   beforeEach(() => {
@@ -84,6 +85,9 @@ describe("add demo flow", () => {
     demoLinkInput = demoScreen.getByRole("textbox", {
       name: "demo連結",
     });
+    demoTagInput = demoScreen.getByRole("textbox", {
+      name: "技術標籤",
+    });
     demoDescriptionInput = demoScreen.getByPlaceholderText("demo說明");
     submitButton = demoScreen.getByLabelText("submit demo");
   });
@@ -96,6 +100,27 @@ describe("add demo flow", () => {
     userEvent.type(gitLinkInput, githubLink);
     userEvent.clear(demoLinkInput);
     userEvent.type(demoLinkInput, demoLink);
+
+    // add a tag
+    userEvent.type(demoTagInput, createdDemoResponse.tags[0]);
+    fireEvent.keyDown(demoTagInput, { key: "Enter", code: "Enter" });
+    const demoTag = await demoScreen.findAllByLabelText("demo tag");
+    expect(demoTag.length).toBe(1);
+
+    // delete a tag
+    const deleteTagButton = demoScreen.getByLabelText("delete a tag");
+    userEvent.click(deleteTagButton);
+    await waitFor(() => {
+      const leftDemoTag = demoScreen.queryAllByLabelText("demo tag");
+      expect(leftDemoTag.length).toBe(0);
+    });
+
+    // add another tag
+    userEvent.type(demoTagInput, createdDemoResponse.tags[1]);
+    fireEvent.keyDown(demoTagInput, { key: "Enter", code: "Enter" });
+    const newDemoTag = await demoScreen.findByLabelText("demo tag");
+    expect(newDemoTag).toHaveTextContent(createdDemoResponse.tags[1]);
+
     userEvent.clear(demoDescriptionInput);
     userEvent.type(demoDescriptionInput, description);
     userEvent.click(submitButton);
@@ -133,8 +158,11 @@ describe("add demo flow", () => {
     userEvent.type(gitLinkInput, text);
     userEvent.clear(demoLinkInput);
     userEvent.type(demoLinkInput, text);
+    userEvent.type(demoTagInput, createdDemoResponse.tags[0]);
+    fireEvent.keyDown(demoTagInput, { key: "Enter", code: "Enter" });
     userEvent.clear(demoDescriptionInput);
     userEvent.type(demoDescriptionInput, text);
+
     userEvent.click(submitButton);
 
     const warning = await demoScreen.findByRole("alert");
