@@ -52,6 +52,7 @@ export const demoResponse = [
     githubLink: "https://sfsdfsdf.com",
     demoLink: "httos://wrwerwerrwe.com",
     description: "a simple react project",
+    tags: ["react", "redux", "sass"],
     __v: 0,
   },
 ];
@@ -62,6 +63,7 @@ export const createdDemoResponse = {
   githubLink: "https://sfsdfsdf.com",
   demoLink: "httos://wrwerwerrwe.com",
   description: "a simple react project",
+  tags: ["react", "redux", "sass"],
   __v: 0,
 };
 
@@ -71,6 +73,7 @@ export const editedDemoResponse = {
   githubLink: "https://sfsdfsdf.com",
   demoLink: "httos://wrwerwerrwe.com",
   description: "a simple react project",
+  tags: ["react", "redux", "sass"],
   __v: 0,
 };
 

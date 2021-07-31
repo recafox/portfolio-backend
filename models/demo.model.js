@@ -19,6 +19,10 @@ const DemoSchema = new Schema({
     type: String,
     required: false,
   },
+  tags: {
+    type: Array,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
