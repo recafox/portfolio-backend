@@ -9,10 +9,21 @@ const Wrapper = styled.div`
   margin: 40px 0;
   justify-content: space-between;
   input {
-    flex-grow: 2;
     padding-left: 10px;
     text-align: center;
     margin: 0 20px;
+
+    &:first-of-type {
+      width: 20%;
+      flex-shrink: 0;
+    }
+    &:nth-of-type(2) {
+      flex-grow: 2;
+    }
+    &:nth-of-type(3) {
+      width: 30%;
+      flex-shrink: 0;
+    }
   }
 
   button {

@@ -4,7 +4,6 @@ import StyledButton from "../Common/StyledButton";
 const Wrapper = styled.div`
   display: flex;
   margin: 10px 0;
-  justify-content: space-between;
   img,
   .blank-img {
     height: 50px;
@@ -17,12 +16,23 @@ const Wrapper = styled.div`
   }
 
   p {
-    flex-grow: 2;
     margin: 0 20px;
     padding: 10px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid ${(props) => props.theme.secondaryColor};
+
+    &:first-of-type {
+      width: 20%;
+      flex-shrink: 0;
+    }
+    &:nth-of-type(2) {
+      flex-grow: 2;
+    }
+    &:nth-of-type(3) {
+      width: 30%;
+      flex-shrink: 0;
+    }
   }
 
   button {

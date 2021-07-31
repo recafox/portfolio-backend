@@ -43,6 +43,9 @@ const CardWrapper = styled.div`
   .content {
     margin-top: 15px;
   }
+  .tags {
+    margin-top: 10px;
+  }
 `;
 
 const Tag = styled.div`
@@ -77,7 +80,7 @@ const Card = ({ item, onEdit, onDelete }) => {
         <i className="fas fa-link"></i>{" "}
         <a href={item.demoLink}>{item.demoLink}</a>
       </p>
-      <div>{renderTags()}</div>
+      <div className="tags">{renderTags()}</div>
       <div className="content">{item.description}</div>
       <div className="button-set">
         <StyledButton aria-label="edit demo" onClick={(e) => onEdit(item)}>

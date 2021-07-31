@@ -8,10 +8,17 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 40px 0;
   input {
-    flex-grow: 2;
     padding-left: 10px;
     text-align: center;
     margin: 0 20px;
+
+    &:first-of-type {
+      width: 20%;
+    }
+
+    &:last-of-type {
+      flex-grow: 2;
+    }
   }
 
   button {
