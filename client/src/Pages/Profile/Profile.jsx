@@ -110,10 +110,12 @@ const Profile = ({ profile }) => {
 
   const onSocialLinkSubmit = (linkItem) => {
     setSocialLinks([...socialLinks, linkItem]);
+    setEditingLink(null);
   };
 
   const onSkillSubmit = (skillItem) => {
     setSkills([...skills, skillItem]);
+    setEditingSkill(null);
   };
 
   const submitEditedProfile = (e) => {

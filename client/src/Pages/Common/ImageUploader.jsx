@@ -51,21 +51,24 @@ const ImageUploader = forwardRef(({ testId, onUploaded, currentImg }, ref) => {
   const [error, setError] = useState(false);
   const [image, setImage] = useState(null);
   const [propImgPath, setPropImgPath] = useState(null);
-
+  const reset = () => {
+    setSelected(false);
+    setUploaded({ status: false, imgId: "" });
+    setImage(null);
+    setPropImgPath(null);
+  };
   useEffect(() => {
     if (currentImg) {
       setPropImgPath(currentImg);
       setSelected(true);
       setUploaded({ status: true, imgId: currentImg });
+    } else {
+      reset();
     }
   }, [currentImg]);
 
   useImperativeHandle(ref, () => ({
-    reset: () => {
-      setSelected(false);
-      setUploaded({ status: false, imgId: "" });
-      setImage(null);
-    },
+    reset,
   }));
 
   const handleClick = (e) => {

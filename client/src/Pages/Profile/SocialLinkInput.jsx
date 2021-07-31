@@ -51,6 +51,8 @@ const SocialLinkInput = ({ onSubmit, editingItem }) => {
         description,
         link,
       });
+    } else {
+      setCurrentImg(null);
     }
   }, [editingItem]);
   const handleSubmit = (item) => {
