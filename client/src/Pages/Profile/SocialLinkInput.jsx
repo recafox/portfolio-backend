@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ImageUploader from "../Common/ImageUploader";
 import StyledInput from "../Common/StyledInput";
 import StyledButton from "../Common/StyledButton";
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const SocialLinkInput = ({ onSubmit }) => {
+const SocialLinkInput = ({ onSubmit, editingItem }) => {
   const imgUploaderRef = useRef();
   const [linkItem, setLinkItem] = useState({
     imgPath: "",
@@ -39,7 +39,20 @@ const SocialLinkInput = ({ onSubmit }) => {
     description: "",
     link: "",
   });
+  const [currentImg, setCurrentImg] = useState(null);
 
+  useEffect(() => {
+    if (editingItem) {
+      const { imgPath, name, description, link } = editingItem;
+      setCurrentImg(editingItem.imgPath);
+      setLinkItem({
+        imgPath,
+        name,
+        description,
+        link,
+      });
+    }
+  }, [editingItem]);
   const handleSubmit = (item) => {
     onSubmit(item);
     setLinkItem({
@@ -62,6 +75,7 @@ const SocialLinkInput = ({ onSubmit }) => {
         ref={imgUploaderRef}
         testId={"social-link"}
         onUploaded={onImageUploaded}
+        currentImg={currentImg}
       ></ImageUploader>
       <StyledInput
         placeholder="連結名稱"

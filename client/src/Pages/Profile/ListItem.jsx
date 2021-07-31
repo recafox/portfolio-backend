@@ -37,10 +37,14 @@ const Wrapper = styled.div`
 
   button {
     align-self: center;
+
+    &:first-of-type {
+      margin-right: 5px;
+    }
   }
 `;
 
-const ListItem = ({ item, type, className, onDelete }) => {
+const ListItem = ({ item, type, className, onDelete, onEdit }) => {
   const renderImage = () => {
     if (item.imgPath) {
       return <img src={getUploadedImageURL(item.imgPath)}></img>;
@@ -58,6 +62,12 @@ const ListItem = ({ item, type, className, onDelete }) => {
         onClick={(e) => onDelete(item, type)}
       >
         <i className="fas fa-times"></i>
+      </StyledButton>
+      <StyledButton
+        aria-label={`edit ${type} ${item.name}`}
+        onClick={(e) => onEdit(item, type)}
+      >
+        <i className="fas fa-pen"></i>
       </StyledButton>
     </Wrapper>
   );

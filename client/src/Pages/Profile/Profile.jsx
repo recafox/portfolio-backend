@@ -62,6 +62,8 @@ const Profile = ({ profile }) => {
   const [socialLinks, setSocialLinks] = useState(
     profile.socialLinks ? profile.socialLinks : []
   );
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [editingLink, setEditingLink] = useState(null);
 
   const deleteItem = async (item, type) => {
     let newList;
@@ -81,11 +83,23 @@ const Profile = ({ profile }) => {
       setSkills(newList);
     }
   };
+  const editItem = (item, type) => {
+    if (type === "social link") {
+      let newList = socialLinks.filter((link) => link.name !== item.name);
+      setSocialLinks(newList);
+      setEditingLink(item);
+    } else if (type === "skill") {
+      let newList = skills.filter((link) => link.name !== item.name);
+      setSkills(newList);
+      setEditingSkill(item);
+    }
+  };
 
   const renderListItem = (list, type) => {
     return list.map((item) => (
       <ListItem
         onDelete={deleteItem}
+        onEdit={editItem}
         className="list-item"
         item={item}
         key={item.name}
@@ -133,11 +147,17 @@ const Profile = ({ profile }) => {
       </label>
       <div>
         {renderListItem(socialLinks, "social link")}
-        <SocialLinkInput onSubmit={onSocialLinkSubmit}></SocialLinkInput>
+        <SocialLinkInput
+          onSubmit={onSocialLinkSubmit}
+          editingItem={editingLink}
+        ></SocialLinkInput>
       </div>
       <div>
         {renderListItem(skills, "skill")}
-        <SkillInput onSubmit={onSkillSubmit}></SkillInput>
+        <SkillInput
+          onSubmit={onSkillSubmit}
+          editingItem={editingSkill}
+        ></SkillInput>
       </div>
       <button
         aria-label="edit profile button"

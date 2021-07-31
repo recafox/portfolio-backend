@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ImageUploader from "../Common/ImageUploader";
 import StyledButton from "../Common/StyledButton";
 import StyledInput from "../Common/StyledInput";
@@ -26,13 +26,26 @@ const Wrapper = styled.div`
   }
 `;
 
-const SkillInput = ({ onSubmit }) => {
+const SkillInput = ({ onSubmit, editingItem }) => {
   const imgUploaderRef = useRef();
   const [skillItem, setSkillItem] = useState({
     imgPath: "",
     name: "",
     description: "",
   });
+  const [currentImg, setCurrentImg] = useState(null);
+
+  useEffect(() => {
+    if (editingItem) {
+      const { imgPath, name, description } = editingItem;
+      setCurrentImg(editingItem.imgPath);
+      setSkillItem({
+        imgPath,
+        name,
+        description,
+      });
+    }
+  }, [editingItem]);
 
   const onImageUploaded = (id, callback) => {
     setSkillItem({ ...skillItem, imgPath: id });
@@ -54,6 +67,7 @@ const SkillInput = ({ onSubmit }) => {
         ref={imgUploaderRef}
         testId={"skill"}
         onUploaded={onImageUploaded}
+        currentImg={currentImg}
       ></ImageUploader>
       <StyledInput
         placeholder="技能名稱"

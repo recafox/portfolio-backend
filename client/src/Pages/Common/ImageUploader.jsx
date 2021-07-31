@@ -1,5 +1,12 @@
 import axios from "axios";
-import { useRef, useState, forwardRef, useImperativeHandle } from "react";
+import { getUploadedImageURL } from "../../Helpers";
+import {
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
 import urls from "../../Constants/urls";
 import styled from "styled-components";
 
@@ -37,12 +44,21 @@ const Uploader = styled.div`
   }
 `;
 
-const ImageUploader = forwardRef(({ testId, onUploaded }, ref) => {
+const ImageUploader = forwardRef(({ testId, onUploaded, currentImg }, ref) => {
   const fileInput = useRef(null);
   const [selected, setSelected] = useState(false);
   const [uploaded, setUploaded] = useState({ status: false, imgId: "" });
   const [error, setError] = useState(false);
   const [image, setImage] = useState(null);
+  const [propImgPath, setPropImgPath] = useState(null);
+
+  useEffect(() => {
+    if (currentImg) {
+      setPropImgPath(currentImg);
+      setSelected(true);
+      setUploaded({ status: true, imgId: currentImg });
+    }
+  }, [currentImg]);
 
   useImperativeHandle(ref, () => ({
     reset: () => {
@@ -89,6 +105,7 @@ const ImageUploader = forwardRef(({ testId, onUploaded }, ref) => {
         method: "DELETE",
         url: `${urls.imageURL}/${uploaded.imgId}`,
       });
+      setPropImgPath(null);
       setSelected(false);
       setUploaded({ status: false, imgId: "" });
       setError(false);
@@ -98,6 +115,16 @@ const ImageUploader = forwardRef(({ testId, onUploaded }, ref) => {
   };
 
   const renderPreview = () => {
+    if (propImgPath) {
+      return (
+        <div className="preview">
+          <img
+            src={getUploadedImageURL(propImgPath)}
+            alt={`${testId}-preview-img`}
+          ></img>
+        </div>
+      );
+    }
     if (selected && image) {
       const src = URL.createObjectURL(image);
       return (
