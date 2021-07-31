@@ -12,6 +12,7 @@ const StyledButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
 
   &:hover {
     background: ${(props) => props.theme.tertiaryColor};

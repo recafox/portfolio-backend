@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   margin: 40px 0;
   input {
     padding-left: 10px;
-    text-align: center;
+    text-align: left;
     margin: 0 20px;
 
     &:first-of-type {

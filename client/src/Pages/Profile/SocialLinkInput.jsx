@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   input {
     padding-left: 10px;
-    text-align: center;
+    text-align: left;
     margin: 0 20px;
 
     &:first-of-type {
