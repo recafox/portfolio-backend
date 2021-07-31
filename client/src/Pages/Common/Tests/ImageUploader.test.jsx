@@ -7,9 +7,12 @@ import { rest } from "msw";
 import { server } from "../../../TestUtils/Mocks/server";
 
 test("error-free image upload flow", async () => {
+  const onUploaded = jest.fn();
   global.URL.createObjectURL = jest.fn();
   global.URL.createObjectURL.mockReturnValue("mocked-image-src");
-  render(<ImageUploader testId={"testing"}></ImageUploader>);
+  render(
+    <ImageUploader testId={"testing"} onUploaded={onUploaded}></ImageUploader>
+  );
 
   // before any image is selected, show select
   const fileInput = screen.getByTestId("testing-image-uploader");
