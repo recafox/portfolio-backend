@@ -6,7 +6,8 @@ const CardWrapper = styled.div`
   background-color: ${(props) => props.theme.secondaryColor};
   color: #fff;
   font-family: "Roboto", "Microsoft JhengHei", sans-serif;
-  height: 300px;
+  min-height: 300px;
+  line-height: 1.2;
   margin: 20px 0;
   padding: 15px;
   position: relative;
