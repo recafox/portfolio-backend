@@ -111,6 +111,7 @@ const InputCard = ({ onSubmit, item, isEditing }) => {
     setGithubLink("");
     setDemoLink("");
     setDescription("");
+    setTags([]);
   };
 
   return (
