@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const cookieSession = require("cookie-session");
 const flash = require("connect-flash");
 const keys = require("./keys");
@@ -12,6 +13,8 @@ const authRoutes = require("./routes/auth.routes");
 const expRoutes = require("./routes/exp.routes");
 const demoRoutes = require("./routes/demo.routes");
 
+// enable cors
+app.use(cors());
 require("./service/passport");
 
 app.use(flash());
